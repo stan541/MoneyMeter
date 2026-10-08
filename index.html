@@ -1,1033 +1,2140 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creator Earnings Calculator</title>
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<link rel="canonical" href="https://moneymeter.xyz/">
-<meta property="og:title" content="MoneyMeter">
-<meta property="og:site_name" content="MoneyMeter">
-<meta property="og:description" content="Calculate streamer and YouTuber earnings instantly">
-<meta property="og:image" content="/preview.png">
-<meta name="description" content="Calculate your exact streaming earnings across Twitch, YouTube, Kick and more. Enter your stats and get accurate monthly revenue estimates instantly.">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --bg:#ffffff;--bg2:#f5f5f3;--bg3:#e8e7e2;
-  --text:#1a1a18;--text2:#6b6b67;--text3:#9a9994;
-  --border:rgba(0,0,0,0.11);--border2:rgba(0,0,0,0.20);
-  --accent-bg:#1a1a18;--accent-text:#ffffff;
-  --slider-track:#d3d1c7;--card-bg:#f5f5f3;
-  --green:#2d7a3a;--green-bg:#eaf5ec;
-  --amber:#7a5500;--amber-bg:#fdf3dc;
-  --red:#991f1f;--red-bg:#fdeaea;
-  --blue:#0c447c;--blue-bg:#e6f1fb;
-}
-[data-theme="dark"]{
-  --bg:#1c1c1a;--bg2:#242422;--bg3:#2e2e2b;
-  --text:#f0efe8;--text2:#9a9994;--text3:#6b6b67;
-  --border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.18);
-  --accent-bg:#f0efe8;--accent-text:#1c1c1a;
-  --slider-track:#3a3a37;--card-bg:#242422;
-  --green:#5ec970;--green-bg:#1a2e1d;
-  --amber:#f0b93a;--amber-bg:#2a2010;
-  --red:#f09595;--red-bg:#2e1a1a;
-  --blue:#85b7eb;--blue-bg:#0c1e30;
-}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;padding:2rem 1rem;transition:background 0.2s,color 0.2s;}
-.app{max-width:760px;margin:0 auto;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creator Earnings Calculator</title>
+  <link rel="icon" type="image/x-icon" href="/favicon.ico ">
+  <link rel="canonical" href="https://moneymeter.xyz/">
+  <meta property="og:title" content="MoneyMeter">
+  <meta property="og:site_name" content="MoneyMeter">
+  <meta property="og:description" content="Calculate streamer and YouTuber earnings instantly">
+  <meta property="og:image" content="/preview.png">
+  <meta name="description"
+    content="Calculate your exact streaming earnings across Twitch, YouTube, Kick and more. Enter your stats and get accurate monthly revenue estimates instantly.">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.topbar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem;gap:12px;}
-.app-title{font-size:21px;font-weight:500;color:var(--text);}
-.app-sub{font-size:13px;color:var(--text2);margin-top:3px;}
-.theme-btn{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--text);white-space:nowrap;flex-shrink:0;transition:background 0.15s;}
-.theme-btn:hover{background:var(--bg3);}
-.support-btn{display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:8px;border:0.5px solid var(--amber);background:var(--amber-bg);cursor:pointer;font-size:13px;font-weight:500;color:var(--amber);white-space:nowrap;flex-shrink:0;text-decoration:none;transition:opacity 0.15s;}
-.support-btn:hover{opacity:0.82;}
-.topbar-btns{display:flex;gap:8px;align-items:center;flex-shrink:0;}
-/* 4th platform slot = Support — hidden on desktop */
-.ptab-support{display:none!important;}
+    :root {
+      --bg: #ffffff;
+      --bg2: #f5f5f3;
+      --bg3: #e8e7e2;
+      --text: #1a1a18;
+      --text2: #6b6b67;
+      --text3: #9a9994;
+      --border: rgba(0, 0, 0, 0.11);
+      --border2: rgba(0, 0, 0, 0.20);
+      --accent-bg: #1a1a18;
+      --accent-text: #ffffff;
+      --slider-track: #d3d1c7;
+      --card-bg: #f5f5f3;
+      --green: #2d7a3a;
+      --green-bg: #eaf5ec;
+      --amber: #7a5500;
+      --amber-bg: #fdf3dc;
+      --red: #991f1f;
+      --red-bg: #fdeaea;
+      --blue: #0c447c;
+      --blue-bg: #e6f1fb;
+    }
 
-.tabs-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:8px;}
-.ptab{padding:11px 8px;border-radius:10px;border:0.5px solid var(--border);background:var(--bg);cursor:pointer;text-align:center;transition:border-color 0.15s,background 0.15s;}
-.ptab:hover{border-color:var(--border2);}
-.ptab.active{border:1.5px solid var(--accent-bg);background:var(--bg3);}
-.ptab-name{font-size:15px;font-weight:500;color:var(--text);}
-.ptab-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+    [data-theme="dark"] {
+      --bg: #1c1c1a;
+      --bg2: #242422;
+      --bg3: #2e2e2b;
+      --text: #f0efe8;
+      --text2: #9a9994;
+      --text3: #6b6b67;
+      --border: rgba(255, 255, 255, 0.09);
+      --border2: rgba(255, 255, 255, 0.18);
+      --accent-bg: #f0efe8;
+      --accent-text: #1c1c1a;
+      --slider-track: #3a3a37;
+      --card-bg: #242422;
+      --green: #5ec970;
+      --green-bg: #1a2e1d;
+      --amber: #f0b93a;
+      --amber-bg: #2a2010;
+      --red: #f09595;
+      --red-bg: #2e1a1a;
+      --blue: #85b7eb;
+      --blue-bg: #0c1e30;
+    }
 
-.mode-row{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
-.mode-btn{padding:6px 16px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all 0.15s;}
-.mode-btn:hover{color:var(--text);}
-.mode-btn.active{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg);}
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg2);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      transition: background 0.2s, color 0.2s;
+    }
 
-.section-tabs{display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap;}
-.stab{padding:7px 14px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all 0.15s;}
-.stab:hover{color:var(--text);}
-.stab.active{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg);}
+    .app {
+      max-width: 760px;
+      margin: 0 auto;
+    }
 
-.rpm-banner{background:var(--bg);border-radius:12px;border:0.5px solid var(--border);padding:1rem 1.25rem;margin-bottom:1rem;}
-.rpm-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.rpm-label{flex:1;min-width:150px;}
-.rpm-label strong{font-size:14px;font-weight:500;color:var(--text);display:block;margin-bottom:2px;}
-.rpm-label span{font-size:11px;color:var(--text2);}
-.rpm-ctrl{display:flex;align-items:center;gap:8px;}
-.rpm-ctrl input[type=number]{width:88px;padding:8px 10px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:16px;font-weight:500;text-align:center;outline:none;-moz-appearance:textfield;}
-.rpm-ctrl input[type=number]::-webkit-outer-spin-button,.rpm-ctrl input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-.rpm-ctrl input[type=number]:focus{border-color:var(--accent-bg);}
-.rpm-unit{font-size:13px;color:var(--text2);font-weight:500;}
-.rpm-badge{display:inline-flex;align-items:center;margin-top:8px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:500;}
-.rpm-badge.good{background:var(--green-bg);color:var(--green);}
-.rpm-badge.warn{background:var(--amber-bg);color:var(--amber);}
-.rpm-note{font-size:11px;color:var(--text3);margin-top:6px;line-height:1.5;}
+    .topbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      gap: 12px;
+    }
 
-.card{background:var(--bg);border-radius:14px;border:0.5px solid var(--border);padding:1.5rem;margin-bottom:1rem;}
-.sec-lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;font-weight:500;}
-.chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.25rem;}
-.chip{padding:6px 13px;border-radius:20px;border:0.5px solid var(--border2);background:var(--bg);cursor:pointer;font-size:12px;color:var(--text2);transition:all 0.15s;}
-.chip:hover{color:var(--text);border-color:var(--accent-bg);}
-.chip.active{background:var(--accent-bg);color:var(--accent-text);border-color:var(--accent-bg);}
+    .app-title {
+      font-size: 21px;
+      font-weight: 500;
+      color: var(--text);
+    }
 
-.sl-block{margin-bottom:1.15rem;}
-.sl-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
-.sl-lbl{font-size:13px;color:var(--text2);}
-.sl-val{font-size:14px;font-weight:500;color:var(--text);}
-input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:4px;background:var(--slider-track);border-radius:2px;outline:none;cursor:grab;}
-input[type=range]:active{cursor:grabbing;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent-bg);border:2.5px solid var(--bg);cursor:grab;transition:transform 0.1s,box-shadow 0.1s;}
-input[type=range]:active::-webkit-slider-thumb{cursor:grabbing;transform:scale(1.2);box-shadow:0 0 0 4px rgba(128,128,128,0.18);}
-input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--accent-bg);border:2.5px solid var(--bg);cursor:grab;}
-input[type=range]:active::-moz-range-thumb{cursor:grabbing;transform:scale(1.2);}
-.divider{border:none;border-top:0.5px solid var(--border);margin:1.25rem 0;}
+    .app-sub {
+      font-size: 13px;
+      color: var(--text2);
+      margin-top: 3px;
+    }
 
-.annual-banner{background:var(--bg3);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-.annual-lbl{font-size:12px;color:var(--text2);margin-bottom:3px;}
-.annual-val{font-size:30px;font-weight:500;color:var(--text);}
-.annual-sub{font-size:11px;color:var(--text3);margin-top:2px;}
-.annual-pills{display:flex;gap:10px;flex-wrap:wrap;}
-.apill{background:var(--bg);border-radius:8px;padding:8px 12px;border:0.5px solid var(--border);}
-.apill-lbl{font-size:10px;color:var(--text2);}
-.apill-val{font-size:14px;font-weight:500;color:var(--text);margin-top:2px;}
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
 
-.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:1.25rem;}
-.metric{background:var(--card-bg);border-radius:10px;padding:13px 12px;}
-.metric .ml{font-size:11px;color:var(--text2);margin-bottom:4px;}
-.metric .mv{font-size:20px;font-weight:500;color:var(--text);}
-.metric .ms{font-size:11px;color:var(--text3);margin-top:3px;}
+    .theme-btn:hover {
+      background: var(--bg3);
+    }
 
-.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
-.bar-lbl{font-size:12px;color:var(--text2);width:68px;flex-shrink:0;text-align:right;}
-.bar-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:4px;transition:width 0.35s;}
-.bar-amt{font-size:12px;font-weight:500;color:var(--text);min-width:88px;}
+    .support-btn {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      border: 0.5px solid var(--amber);
+      background: var(--amber-bg);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--amber);
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
 
-.stack-items{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem;}
-.sitem{border-radius:10px;border:0.5px solid var(--border2);background:var(--bg);overflow:hidden;transition:border-color 0.15s;}
-.sitem-on{border-color:var(--accent-bg);}
-.sitem-header{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;width:100%;}
-.sitem-cb{flex-shrink:0;position:relative;width:18px;height:18px;}
-.sitem-cb input[type=checkbox]{position:absolute;opacity:0;width:0;height:0;}
-.sitem-box{display:block;width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);background:var(--bg);transition:all 0.15s;position:relative;}
-.sitem-cb input:checked+.sitem-box{background:var(--accent-bg);border-color:var(--accent-bg);}
-.sitem-cb input:checked+.sitem-box::after{content:'';position:absolute;left:4px;top:1px;width:5px;height:9px;border:2px solid var(--accent-text);border-top:none;border-left:none;transform:rotate(45deg);}
-.sitem-info{flex:1;min-width:0;}
-.sitem-lbl{font-size:13px;font-weight:500;color:var(--text);display:block;}
-.sitem-sub{font-size:11px;color:var(--text3);margin-top:1px;display:block;}
-.sitem-earn{font-size:13px;font-weight:500;color:var(--text2);white-space:nowrap;flex-shrink:0;}
-.sitem-on .sitem-earn{color:var(--green);}
-.sitem-sliders{padding:0 14px 14px;border-top:0.5px solid var(--border);}
-.sitem-sliders .sl-block:first-child{margin-top:12px;}
-.stack-total{background:var(--green-bg);border-radius:10px;padding:12px 14px;margin-top:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.st-lbl{font-size:12px;color:var(--green);font-weight:500;}
-.st-val{font-size:22px;font-weight:500;color:var(--green);}
-.st-sub{font-size:11px;color:var(--green);opacity:0.8;margin-top:2px;}
+    .support-btn:hover {
+      opacity: 0.82;
+    }
 
-.tax-section{margin-top:0;}
-.tax-result{background:var(--red-bg);border-radius:10px;padding:12px 14px;margin-top:1rem;}
-.tax-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;}
-.tax-lbl{font-size:13px;color:var(--red);}
-.tax-val{font-size:15px;font-weight:500;color:var(--red);}
-.tax-final{display:flex;justify-content:space-between;align-items:baseline;margin-top:8px;padding-top:8px;border-top:0.5px solid rgba(0,0,0,0.08);}
-.tf-lbl{font-size:13px;font-weight:500;color:var(--text);}
-.tf-val{font-size:22px;font-weight:500;color:var(--green);}
+    .topbar-btns {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
 
-.breakeven-section{margin-top:0;}
-.be-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:1rem;}
-.be-card{background:var(--card-bg);border-radius:10px;padding:13px 12px;border:0.5px solid var(--border);}
-.be-card.active-be{border:1.5px solid var(--accent-bg);}
-.be-platform{font-size:11px;color:var(--text2);}
-.be-metric{font-size:13px;font-weight:500;color:var(--text);margin-top:4px;}
-.be-sub{font-size:11px;color:var(--text3);margin-top:2px;}
+    /* 4th platform slot = Support — hidden on desktop */
+    .ptab-support {
+      display: none !important;
+    }
 
-.compare-section{margin-top:1.25rem;}
-.compare-note{font-size:11px;color:var(--text3);margin-bottom:8px;}
-.compare-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;}
-.cc{background:var(--card-bg);border-radius:10px;padding:11px 10px;border:0.5px solid var(--border);}
-.cc.active{border:1.5px solid var(--accent-bg);}
-.cc-name{font-size:11px;color:var(--text2);}
-.cc-val{font-size:15px;font-weight:500;color:var(--text);margin-top:4px;}
-.cc-badge{font-size:10px;padding:2px 7px;border-radius:4px;margin-top:4px;display:inline-block;background:var(--green-bg);color:var(--green);}
+    .tabs-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 8px;
+    }
 
-.insight{background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);padding:12px 14px;font-size:13px;color:var(--text2);line-height:1.6;margin-top:1rem;}
-.insight strong{color:var(--text);font-weight:500;}
-.footnote{font-size:11px;color:var(--text3);margin-top:1rem;line-height:1.6;}
+    .ptab {
+      padding: 11px 8px;
+      border-radius: 10px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.15s, background 0.15s;
+    }
 
-.number-row{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;}
-.number-row label{font-size:13px;color:var(--text2);flex:1;}
-.number-row input[type=number]{width:110px;padding:8px 10px;border-radius:8px;border:0.5px solid var(--border2);background:var(--bg2);color:var(--text);font-size:14px;font-weight:500;text-align:center;outline:none;-moz-appearance:textfield;}
-.number-row input[type=number]::-webkit-outer-spin-button,.number-row input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;}
-.number-row input[type=number]:focus{border-color:var(--accent-bg);}
-.number-row .nu{font-size:12px;color:var(--text3);}
+    .ptab:hover {
+      border-color: var(--border2);
+    }
 
-@media(max-width:520px){
-  .metrics{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .tabs-row{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .compare-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  /* On mobile: hide topbar support btn, show 4th grid slot instead */
-  .support-btn-topbar{display:none!important;}
-  .ptab-support{display:block!important;border:0.5px solid var(--amber)!important;background:var(--amber-bg)!important;text-decoration:none;}
-  .ptab-support .ptab-name{color:var(--amber);}
-  .ptab-support .ptab-sub{color:var(--amber);opacity:0.8;}
-  .ptab-support:hover{opacity:0.82;}
-}
-</style>
+    .ptab.active {
+      border: 1.5px solid var(--accent-bg);
+      background: var(--bg3);
+    }
+
+    .ptab-name {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .ptab-sub {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 3px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .mode-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .mode-btn {
+      padding: 7px 18px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      transition: all 0.15s;
+    }
+
+    .mode-btn:hover {
+      color: var(--text);
+    }
+
+    .mode-btn.active {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: var(--accent-bg);
+    }
+
+    .section-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 1.25rem;
+    }
+
+    .stab {
+      padding: 9px 8px;
+      border-radius: 10px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      text-align: center;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+
+    .stab:hover {
+      color: var(--text);
+      border-color: var(--border2);
+    }
+
+    .stab.active {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: var(--accent-bg);
+    }
+
+    .rpm-banner {
+      background: var(--bg);
+      border-radius: 12px;
+      border: 0.5px solid var(--border);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+    }
+
+    .rpm-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .rpm-label {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .rpm-label strong {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .rpm-label span {
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .rpm-ctrl {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rpm-ctrl input[type=number] {
+      width: 88px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg2);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+
+    .rpm-ctrl input[type=number]::-webkit-outer-spin-button,
+    .rpm-ctrl input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .rpm-ctrl input[type=number]:focus {
+      border-color: var(--accent-bg);
+    }
+
+    .rpm-unit {
+      font-size: 13px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    .rpm-badge {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .rpm-badge.good {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .rpm-badge.warn {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .rpm-note {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: var(--bg);
+      border-radius: 14px;
+      border: 0.5px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .sec-lbl {
+      font-size: 11px;
+      color: var(--text2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-bottom: 1.25rem;
+    }
+
+    .chip {
+      padding: 6px 13px;
+      border-radius: 20px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text2);
+      transition: all 0.15s;
+    }
+
+    .chip:hover {
+      color: var(--text);
+      border-color: var(--accent-bg);
+    }
+
+    .chip.active {
+      background: var(--accent-bg);
+      color: var(--accent-text);
+      border-color: var(--accent-bg);
+    }
+
+    .sl-block {
+      margin-bottom: 1.15rem;
+    }
+
+    .sl-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .sl-lbl {
+      font-size: 13px;
+      color: var(--text2);
+    }
+
+    .sl-val {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    input[type=range] {
+      width: 100%;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--slider-track);
+      border-radius: 2px;
+      outline: none;
+      cursor: grab;
+    }
+
+    input[type=range]:active {
+      cursor: grabbing;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      border: 2.5px solid var(--bg);
+      cursor: grab;
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    input[type=range]:active::-webkit-slider-thumb {
+      cursor: grabbing;
+      transform: scale(1.2);
+      box-shadow: 0 0 0 4px rgba(128, 128, 128, 0.18);
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      border: 2.5px solid var(--bg);
+      cursor: grab;
+    }
+
+    input[type=range]:active::-moz-range-thumb {
+      cursor: grabbing;
+      transform: scale(1.2);
+    }
+
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 1.25rem 0;
+    }
+
+    .annual-banner {
+      background: var(--bg3);
+      border-radius: 14px;
+      padding: 1.5rem 1.25rem 1.35rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .annual-lbl {
+      font-size: 12px;
+      color: var(--text2);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 500;
+    }
+
+    .annual-val {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.02em;
+    }
+
+    .annual-sub {
+      font-size: 12px;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    .annual-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .apill {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 10px 16px;
+      border: 0.5px solid var(--border);
+      min-width: 110px;
+    }
+
+    .apill-lbl {
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .apill-val {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 3px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 1.25rem;
+    }
+
+    .metric {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+    }
+
+    .metric .ml {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+
+    .metric .mv {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .metric .ms {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .bar-lbl {
+      font-size: 12px;
+      color: var(--text2);
+      width: 68px;
+      flex-shrink: 0;
+      text-align: right;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg3);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.35s;
+    }
+
+    .bar-amt {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 88px;
+    }
+
+    .stack-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 1.25rem;
+    }
+
+    .sitem {
+      border-radius: 12px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      overflow: hidden;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .sitem-on {
+      border-color: var(--accent-bg);
+      background: var(--bg3);
+    }
+
+    .sitem-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .sitem-cb {
+      flex-shrink: 0;
+      position: relative;
+      width: 18px;
+      height: 18px;
+    }
+
+    .sitem-cb input[type=checkbox] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .sitem-box {
+      display: block;
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border2);
+      background: var(--bg);
+      transition: all 0.15s;
+      position: relative;
+    }
+
+    .sitem-cb input:checked+.sitem-box {
+      background: var(--accent-bg);
+      border-color: var(--accent-bg);
+    }
+
+    .sitem-cb input:checked+.sitem-box::after {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 1px;
+      width: 5px;
+      height: 9px;
+      border: 2px solid var(--accent-text);
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+
+    .sitem-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sitem-lbl {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      display: block;
+    }
+
+    .sitem-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 1px;
+      display: block;
+    }
+
+    .sitem-earn {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text2);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .sitem-on .sitem-earn {
+      color: var(--green);
+    }
+
+    .sitem-sliders {
+      padding: 0 14px 14px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .sitem-sliders .sl-block:first-child {
+      margin-top: 12px;
+    }
+
+    .stack-total {
+      background: var(--green-bg);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .st-lbl {
+      font-size: 12px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .st-val {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--green);
+    }
+
+    .st-sub {
+      font-size: 11px;
+      color: var(--green);
+      opacity: 0.8;
+      margin-top: 3px;
+    }
+
+    .tax-section {
+      margin-top: 0;
+    }
+
+    .tax-result {
+      background: var(--red-bg);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 1rem;
+    }
+
+    .tax-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+
+    .tax-lbl {
+      font-size: 13px;
+      color: var(--red);
+    }
+
+    .tax-val {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--red);
+    }
+
+    .tax-final {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .tf-lbl {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .tf-val {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--green);
+    }
+
+    .breakeven-section {
+      margin-top: 0;
+    }
+
+    .be-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .be-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px 14px;
+      border: 0.5px solid var(--border);
+      text-align: center;
+      transition: border-color 0.15s;
+    }
+
+    .be-card.active-be {
+      border: 1.5px solid var(--accent-bg);
+      background: var(--bg3);
+    }
+
+    .be-platform {
+      font-size: 11px;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    .be-metric {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .be-sub {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .compare-section {
+      margin-top: 1.25rem;
+    }
+
+    .compare-note {
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 8px;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .cc {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 11px 10px;
+      border: 0.5px solid var(--border);
+    }
+
+    .cc.active {
+      border: 1.5px solid var(--accent-bg);
+    }
+
+    .cc-name {
+      font-size: 11px;
+      color: var(--text2);
+    }
+
+    .cc-val {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 4px;
+    }
+
+    .cc-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 4px;
+      display: inline-block;
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .insight {
+      background: var(--bg2);
+      border-radius: 10px;
+      border: 0.5px solid var(--border);
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.6;
+      margin-top: 1rem;
+    }
+
+    .insight strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .footnote {
+      font-size: 11px;
+      color: var(--text3);
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    .number-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .number-row label {
+      font-size: 13px;
+      color: var(--text2);
+      flex: 1;
+    }
+
+    .number-row input[type=number] {
+      width: 110px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg2);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      outline: none;
+      -moz-appearance: textfield;
+    }
+
+    .number-row input[type=number]::-webkit-outer-spin-button,
+    .number-row input[type=number]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+    }
+
+    .number-row input[type=number]:focus {
+      border-color: var(--accent-bg);
+    }
+
+    .number-row .nu {
+      font-size: 12px;
+      color: var(--text3);
+    }
+
+    .copy-btn, .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 0.5px solid var(--border2);
+      background: var(--bg);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text2);
+      transition: all 0.15s;
+      margin-top: 8px;
+    }
+    .copy-btn:hover, .share-btn:hover {
+      color: var(--text);
+      border-color: var(--accent-bg);
+    }
+    .copy-btn.copied {
+      background: var(--green-bg);
+      color: var(--green);
+      border-color: var(--green);
+    }
+
+    .ad-warn {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--amber-bg);
+      color: var(--amber);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .growth-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 1rem 0 0.5rem;
+      flex-wrap: wrap;
+    }
+    .growth-row label {
+      font-size: 12px;
+      color: var(--text2);
+    }
+    .growth-row input[type=range] {
+      flex: 1;
+      min-width: 100px;
+    }
+    .growth-val {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      min-width: 48px;
+    }
+    .growth-result {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+    .growth-result strong {
+      color: var(--green);
+    }
+
+    .data-note {
+      font-size: 10px;
+      color: var(--text3);
+      margin-top: 4px;
+    }
+
+    @media(max-width:520px) {
+      .metrics {
+        grid-template-columns: 1fr 1fr;
+      }
+      .metrics .metric:first-child {
+        grid-column: 1 / -1;
+      }
+
+      .section-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tabs-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .compare-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      /* On mobile: hide topbar support btn, show 4th grid slot instead */
+      .support-btn-topbar {
+        display: none !important;
+      }
+
+      .ptab-support {
+        display: block !important;
+        border: 0.5px solid var(--amber) !important;
+        background: var(--amber-bg) !important;
+        text-decoration: none;
+      }
+
+      .ptab-support .ptab-name {
+        color: var(--amber);
+      }
+
+      .ptab-support .ptab-sub {
+        color: var(--amber);
+        opacity: 0.8;
+      }
+
+      .ptab-support:hover {
+        opacity: 0.82;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<div class="app">
+  <div class="app">
 
-<div class="topbar">
-  <div>
-    <div class="app-title">Creator earnings calculator</div>
-    <div class="app-sub">Live streams · uploads · shorts — with tax &amp; revenue stack</div>
+    <div class="topbar">
+      <div>
+        <div class="app-title">Creator earnings calculator</div>
+        <div class="app-sub">Live streams · uploads · shorts — with tax &amp; revenue stack</div>
+      </div>
+      <div class="topbar-btns">
+        <a class="support-btn support-btn-topbar" href="./donate"  rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path
+              d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.652 1.024-9.978l.215-2.202c.005-.065.032-.13.07-.185.03-.044.067-.08.11-.104z" />
+          </svg>
+          Support
+        </a>
+        <button class="theme-btn" onclick="toggleTheme()">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.3" />
+            <line x1="8" y1="0.5" x2="8" y2="2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <line x1="8" y1="13.5" x2="8" y2="15.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <line x1="0.5" y1="8" x2="2.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <line x1="13.5" y1="8" x2="15.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+            <line x1="2.64" y1="2.64" x2="4.05" y2="4.05" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+            <line x1="11.95" y1="11.95" x2="13.36" y2="13.36" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+            <line x1="13.36" y1="2.64" x2="11.95" y2="4.05" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+            <line x1="4.05" y1="11.95" x2="2.64" y2="13.36" stroke="currentColor" stroke-width="1.3"
+              stroke-linecap="round" />
+          </svg>
+          <span id="themeLbl">Light mode</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="tabs-row" id="ptabs"></div>
+    <div class="mode-row" id="modeRow"></div>
+    <div id="rpmWrap"></div>
+    <div class="card" id="inputCard"></div>
+    <div id="annualWrap"></div>
+
+    <div class="card">
+      <div class="section-tabs" id="sectionTabs"></div>
+      <div id="sectionContent"></div>
+    </div>
+
   </div>
-  <div class="topbar-btns">
-    <a class="support-btn support-btn-topbar" href="./donate" rel="noopener">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.216 6.415l-.132-.666c-.119-.598-.388-1.163-1.001-1.379-.197-.069-.42-.098-.57-.241-.152-.143-.196-.366-.231-.572-.065-.378-.125-.756-.192-1.133-.057-.325-.102-.69-.25-.987-.195-.4-.597-.634-.996-.788a5.723 5.723 0 00-.626-.194c-1-.263-2.05-.36-3.077-.416a25.834 25.834 0 00-3.7.062c-.915.083-1.88.184-2.75.5-.318.116-.646.256-.888.501-.297.302-.393.77-.177 1.146.154.267.415.456.692.58.36.162.737.284 1.123.366 1.075.238 2.189.331 3.287.37 1.218.05 2.437.01 3.65-.118.299-.033.598-.073.896-.119.352-.054.578-.513.474-.834-.124-.383-.457-.531-.834-.473-.466.074-.96.108-1.382.146-1.177.08-2.358.082-3.536.006a22.228 22.228 0 01-1.157-.107c-.086-.01-.18-.025-.258-.036-.243-.036-.484-.08-.724-.13-.111-.027-.111-.185 0-.212h.005c.277-.06.557-.108.838-.147h.002c.131-.009.263-.032.394-.048a25.076 25.076 0 013.426-.12c.674.019 1.347.067 2.017.144l.228.031c.267.04.533.088.798.145.392.085.895.113 1.07.542.055.137.08.288.111.431l.319 1.484a.237.237 0 01-.199.284h-.003c-.037.006-.075.01-.112.015a36.704 36.704 0 01-4.743.295 37.059 37.059 0 01-4.699-.304c-.14-.017-.293-.042-.417-.06-.326-.048-.649-.108-.973-.161-.393-.065-.768-.032-1.123.161-.29.16-.527.404-.675.701-.154.316-.199.66-.267 1-.069.34-.176.707-.135 1.056.087.753.613 1.365 1.37 1.502a39.69 39.69 0 0011.343.376.483.483 0 01.535.53l-.071.697-1.018 9.907c-.041.41-.047.832-.125 1.237-.122.637-.553 1.028-1.182 1.171-.577.131-1.165.2-1.756.205-.656.004-1.31-.025-1.966-.022-.699.004-1.556-.06-2.095-.58-.475-.458-.54-1.174-.605-1.793l-.731-7.013-.322-3.094c-.037-.351-.286-.695-.678-.678-.336.015-.718.3-.678.679l.228 2.185.949 9.112c.147 1.344 1.174 2.068 2.446 2.272.742.12 1.503.144 2.257.156.966.016 1.942.053 2.892-.122 1.408-.258 2.465-1.198 2.616-2.657.34-3.332.683-6.652 1.024-9.978l.215-2.202c.005-.065.032-.13.07-.185.03-.044.067-.08.11-.104z"/></svg>
-      Support
-    </a>
-    <button class="theme-btn" onclick="toggleTheme()">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-        <circle cx="8" cy="8" r="3.5" stroke="currentColor" stroke-width="1.3"/>
-        <line x1="8" y1="0.5" x2="8" y2="2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="8" y1="13.5" x2="8" y2="15.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="0.5" y1="8" x2="2.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="13.5" y1="8" x2="15.5" y2="8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="2.64" y1="2.64" x2="4.05" y2="4.05" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="11.95" y1="11.95" x2="13.36" y2="13.36" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="13.36" y1="2.64" x2="11.95" y2="4.05" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-        <line x1="4.05" y1="11.95" x2="2.64" y2="13.36" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
-      </svg>
-      <span id="themeLbl">Light mode</span>
-    </button>
-  </div>
-</div>
 
-<div class="tabs-row" id="ptabs"></div>
-<div class="mode-row" id="modeRow"></div>
-<div id="rpmWrap"></div>
-<div class="card" id="inputCard"></div>
-<div id="annualWrap"></div>
+  <footer
+    style="text-align:center;font-size:12px;color:var(--text3);padding:1.5rem 1rem 1.25rem;border-top:0.5px solid var(--border);margin-top:2rem;">
+    <nav style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-bottom:0.6rem;">
+      <a href="about" style="color:var(--text2);text-decoration:none;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">About Us</a>
+      <a href="terms" style="color:var(--text2);text-decoration:none;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Terms of Use</a>
+      <a href="privacy" style="color:var(--text2);text-decoration:none;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Privacy Policy</a>
+      <a href="sitemap" style="color:var(--text2);text-decoration:none;transition:color 0.15s;"
+        onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Sitemap</a>
+    </nav>
+    <div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>
+  </footer>
 
-<div class="card">
-  <div class="section-tabs" id="sectionTabs"></div>
-  <div id="sectionContent"></div>
-</div>
-
-</div>
-
-<footer style="text-align:center;font-size:12px;color:var(--text3);padding:1.5rem 1rem 1.25rem;border-top:0.5px solid var(--border);margin-top:2rem;">
-  <nav style="display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-bottom:0.6rem;">
-    <a href="./about" style="color:var(--text2);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">About Us</a>
-    <a href="./terms" style="color:var(--text2);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Terms of Use</a>
-    <a href="./privacy" style="color:var(--text2);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Privacy Policy</a>
-    <a href="./sitemap" style="color:var(--text2);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--text2)'">Sitemap</a>
-  </nav>
-  <div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>
-</footer>
-
-<script>
-document.getElementById('footerYr').textContent=new Date().getFullYear();
-var platforms=[
-  {id:'twitch',  name:'Twitch',  modes:['live','video']},
-  {id:'kick',    name:'Kick',    modes:['live','video']},
-  {id:'youtube', name:'YouTube', modes:['shorts','video']},
-];
-
-var nicheData={
-  twitch_live:[
-    {name:'Finance / crypto',rpmMin:3.30,rpmMax:7.70},
-    {name:'Tech / coding',   rpmMin:2.75,rpmMax:5.50},
-    {name:'Just chatting',   rpmMin:1.65,rpmMax:3.30},
-    {name:'IRL',             rpmMin:1.10,rpmMax:2.75},
-    {name:'Entertainment',   rpmMin:1.10,rpmMax:2.75},
-    {name:'Gaming',          rpmMin:1.65,rpmMax:3.85},
-    {name:'Esports',         rpmMin:2.20,rpmMax:4.95},
-    {name:'Music / DJ',      rpmMin:0.83,rpmMax:1.93},
-  ],
-  twitch_video:[
-    {name:'Finance / crypto',rpmMin:1.5,rpmMax:3.5},
-    {name:'Tech / coding',   rpmMin:1.2,rpmMax:3.0},
-    {name:'Just chatting',   rpmMin:0.8,rpmMax:2.0},
-    {name:'IRL / vlog',      rpmMin:0.8,rpmMax:2.0},
-    {name:'Entertainment',   rpmMin:0.7,rpmMax:1.8},
-    {name:'Gaming',          rpmMin:1.0,rpmMax:2.5},
-    {name:'Esports',         rpmMin:1.2,rpmMax:3.0},
-    {name:'Music',           rpmMin:0.5,rpmMax:1.5},
-  ],
-  kick_live:[
-    {name:'Finance / crypto',rpmMin:3.80,rpmMax:9.50},
-    {name:'Tech / coding',   rpmMin:3.33,rpmMax:7.60},
-    {name:'Just chatting',   rpmMin:1.90,rpmMax:4.28},
-    {name:'IRL',             rpmMin:1.43,rpmMax:3.80},
-    {name:'Entertainment',   rpmMin:1.43,rpmMax:3.80},
-    {name:'Gaming',          rpmMin:1.90,rpmMax:4.75},
-    {name:'Esports',         rpmMin:2.85,rpmMax:6.65},
-    {name:'Music / DJ',      rpmMin:0.95,rpmMax:2.85},
-  ],
-  kick_video:[
-    {name:'Finance / crypto',rpmMin:0.8,rpmMax:2.0},
-    {name:'Tech / coding',   rpmMin:0.7,rpmMax:1.8},
-    {name:'Just chatting',   rpmMin:0.4,rpmMax:1.2},
-    {name:'IRL / vlog',      rpmMin:0.4,rpmMax:1.2},
-    {name:'Entertainment',   rpmMin:0.3,rpmMax:1.0},
-    {name:'Gaming',          rpmMin:0.5,rpmMax:1.5},
-    {name:'Esports',         rpmMin:0.6,rpmMax:1.8},
-    {name:'Music',           rpmMin:0.3,rpmMax:0.9},
-  ],
-  youtube_shorts:[
-    {name:'Finance / crypto',rpmMin:0.03,rpmMax:0.12},
-    {name:'Tech / coding',   rpmMin:0.03,rpmMax:0.10},
-    {name:'Entertainment',   rpmMin:0.01,rpmMax:0.05},
-    {name:'Comedy / memes',  rpmMin:0.01,rpmMax:0.04},
-    {name:'Lifestyle',       rpmMin:0.01,rpmMax:0.05},
-    {name:'Gaming',          rpmMin:0.02,rpmMax:0.07},
-    {name:'Education',       rpmMin:0.03,rpmMax:0.09},
-    {name:'IRL / vlog',      rpmMin:0.01,rpmMax:0.05},
-  ],
-  youtube_video:[
-    {name:'Finance / investing',rpmMin:8,  rpmMax:22},
-    {name:'Tech / software',    rpmMin:6,  rpmMax:15},
-    {name:'Education',          rpmMin:5,  rpmMax:12},
-    {name:'Gaming',             rpmMin:3,  rpmMax:8 },
-    {name:'Entertainment',      rpmMin:2,  rpmMax:6 },
-    {name:'Lifestyle / vlog',   rpmMin:2,  rpmMax:5 },
-    {name:'Comedy',             rpmMin:1.5,rpmMax:4 },
-    {name:'Music',              rpmMin:1,  rpmMax:3 },
-  ],
-};
-
-var regions=[
-  {name:'US / UK / CA', mult:1.00},
-  {name:'W. Europe',    mult:0.75},
-  {name:'E. Europe',    mult:0.45},
-  {name:'Asia',         mult:0.35},
-  {name:'LATAM',        mult:0.30},
-  {name:'CIS',          mult:0.25},
-];
-
-var accentCol={
-  twitch_live:'#D4537E',twitch_video:'#D4537E',
-  kick_live:'#4a9e5c',  kick_video:'#4a9e5c',
-  youtube_shorts:'#D85A30',youtube_video:'#378ADD',
-};
-
-var S={
-  platform:'twitch',mode:'live',niche:0,region:0,
-  viewers:1340,hours:8,adMin:3,streamDays:22,
-  twitchLiveRpm:2.20,kickLiveRpm:2.85,
-  ytViews:48000,ytVideos:8,ytRpm:4.00,
-  shortViews:320000,shortRpm:0.04,
-  vodViews:8500,vodVideos:6,twitchVodRpm:1.50,kickVodRpm:1.00,
-  taxRate:25,
-  targetIncome:3000,
-  stack:{subs:false,donations:false,brandDeals:false,merch:false},
-  stackVals:{subsPerMonth:120,subPrice:4.99,donationsPerMonth:150,brandDealsPerMonth:500,merchPerMonth:200},
-  activeSection:'results',
-};
-
-function mk(){return S.platform+'_'+S.mode;}
-
-function fmtM(n){
-  if(n>=1000000)return'$'+(n/1000000).toFixed(2)+'M';
-  if(n>=1000)   return'$'+Math.round(n).toLocaleString();
-  return'$'+Math.round(n);
-}
-function fmtV(n){
-  n=parseFloat(n);
-  if(n>=1000000)return(n/1000000).toFixed(1)+'M';
-  if(n>=1000)   return n>=10000?Math.round(n/1000)+'K':(n/1000).toFixed(1)+'K';
-  return''+Math.round(n);
-}
-function fmtRaw(n){return Math.round(n).toLocaleString();}
-
-function getNestedVal(key){var parts=key.split('.');return parts.length===2?S[parts[0]][parts[1]]:S[key];}
-function setNestedVal(key,v){var parts=key.split('.');if(parts.length===2)S[parts[0]][parts[1]]=v;else S[key]=v;}
-function sliderHTML(id,lbl,min,max,step,key,dispFn){
-  var v=getNestedVal(key);
-  return'<div class="sl-block">'
-    +'<div class="sl-header"><span class="sl-lbl">'+lbl+'</span>'
-    +'<span class="sl-val" id="out_'+id+'">'+dispFn(v)+'</span></div>'
-    +'<input type="range" id="sl_'+id+'" min="'+min+'" max="'+max+'" step="'+step+'" value="'+v+'">'
-    +'</div>';
-}
-function wireSlider(id,key,dispFn){
-  var sl=document.getElementById('sl_'+id);
-  var out=document.getElementById('out_'+id);
-  if(!sl||!out)return;
-  sl.addEventListener('input',function(){
-    var v=parseFloat(sl.value);
-    setNestedVal(key,v);
-    out.textContent=dispFn(v);
-    renderAll();
-    if(S.activeSection==='breakeven'){
-      var beWrap=document.getElementById('beGridWrap');
-      if(beWrap) beWrap.innerHTML=buildBeGrid(S.targetIncome);
-    }
-  });
-}
-
-function autoSetAvgRpm(){
-  var key=mk();
-  var n=nicheData[key][S.niche];
-  var r=regions[S.region];
-  var avg=(n.rpmMin+n.rpmMax)/2*r.mult;
-  var rk=rpmKeyFor(key);
-  S[rk]=parseFloat(avg.toFixed(2));
-}
-
-function buildInputCard(){
-  var key=mk();
-  var nList=nicheData[key];
-  var html='';
-
-  html+='<div class="sec-lbl">Niche</div><div class="chip-row" id="nicheChips">';
-  for(var i=0;i<nList.length;i++)
-    html+='<span class="chip'+(i===S.niche?' active':'')+'" data-i="'+i+'">'+nList[i].name+'</span>';
-  html+='</div>';
-
-  html+='<div class="sec-lbl">Audience region</div><div class="chip-row" id="regionChips">';
-  for(var j=0;j<regions.length;j++)
-    html+='<span class="chip'+(j===S.region?' active':'')+'" data-i="'+j+'">'+regions[j].name+'</span>';
-  html+='</div><div class="divider"></div>';
-
-  if(key==='twitch_live'||key==='kick_live'){
-    html+=sliderHTML('viewers','Avg concurrent viewers',50,50000,10,'viewers',function(v){
-      if(v<1000)return Math.round(v)+'';
-      return fmtV(v);
-    });
-    html+=sliderHTML('hours','Stream hours per day',1,16,1,'hours',function(v){return v+' hrs';});
-    html+=sliderHTML('adMin','Ad break minutes per hour',1,6,1,'adMin',function(v){return v+' min/hr';});
-    html+=sliderHTML('streamDays','Stream days per month',5,31,1,'streamDays',function(v){return v+' days';});
-  } else if(key==='twitch_video'||key==='kick_video'){
-    html+=sliderHTML('vodViews','Avg views per VOD / clip',100,10000000,100,'vodViews',fmtV);
-    html+=sliderHTML('vodVideos','Videos uploaded per month',1,100,1,'vodVideos',function(v){return v+' videos';});
-  } else if(key==='youtube_shorts'){
-    html+=sliderHTML('shortViews','Monthly Shorts views',5000,100000000,5000,'shortViews',fmtV);
-  } else if(key==='youtube_video'){
-    html+=sliderHTML('ytViews','Avg views per video',500,10000000,500,'ytViews',fmtV);
-    html+=sliderHTML('ytVideos','Videos published per month',1,100,1,'ytVideos',function(v){return v+' videos';});
-  }
-
-  document.getElementById('inputCard').innerHTML=html;
-
-  document.querySelectorAll('#nicheChips .chip').forEach(function(el){
-    el.addEventListener('click',function(){
-      S.niche=parseInt(el.getAttribute('data-i'));
-      document.querySelectorAll('#nicheChips .chip').forEach(function(c){c.classList.remove('active');});
-      el.classList.add('active');
-      autoSetAvgRpm();
-      renderAll();
-      if(S.activeSection==='breakeven'){var bw=document.getElementById('beGridWrap');if(bw)bw.innerHTML=buildBeGrid(S.targetIncome);}
-    });
-  });
-  document.querySelectorAll('#regionChips .chip').forEach(function(el){
-    el.addEventListener('click',function(){
-      S.region=parseInt(el.getAttribute('data-i'));
-      document.querySelectorAll('#regionChips .chip').forEach(function(c){c.classList.remove('active');});
-      el.classList.add('active');
-      autoSetAvgRpm();
-      renderAll();
-      if(S.activeSection==='breakeven'){var bw=document.getElementById('beGridWrap');if(bw)bw.innerHTML=buildBeGrid(S.targetIncome);}
-    });
-  });
-
-  if(key==='twitch_live'||key==='kick_live'){
-    wireSlider('viewers','viewers',function(v){return v<1000?Math.round(v)+'':fmtV(v);});
-    wireSlider('hours','hours',function(v){return v+' hrs';});
-    wireSlider('adMin','adMin',function(v){return v+' min/hr';});
-    wireSlider('streamDays','streamDays',function(v){return v+' days';});
-  } else if(key==='twitch_video'||key==='kick_video'){
-    wireSlider('vodViews','vodViews',fmtV);
-    wireSlider('vodVideos','vodVideos',function(v){return v+' videos';});
-  } else if(key==='youtube_shorts'){
-    wireSlider('shortViews','shortViews',fmtV);
-  } else if(key==='youtube_video'){
-    wireSlider('ytViews','ytViews',fmtV);
-    wireSlider('ytVideos','ytVideos',function(v){return v+' videos';});
-  }
-}
-
-function rpmKeyFor(key){
-  if(key==='twitch_live')  return'twitchLiveRpm';
-  if(key==='kick_live')    return'kickLiveRpm';
-  if(key==='youtube_shorts')return'shortRpm';
-  if(key==='twitch_video') return'twitchVodRpm';
-  if(key==='kick_video')   return'kickVodRpm';
-  return'ytRpm';
-}
-
-function buildRpmBanner(){
-  var wrap=document.getElementById('rpmWrap');
-  var key=mk();
-  var n=nicheData[key][S.niche];
-  var r=regions[S.region];
-  var rk=rpmKeyFor(key);
-  var cur=S[rk];
-  var lo=n.rpmMin*r.mult,hi=n.rpmMax*r.mult,avg=(lo+hi)/2;
-  var pct=(cur-avg)/avg*100;
-  var bc=pct>=0?'good':'warn';
-  var bt=pct>=0?('+'+pct.toFixed(0)+'% above niche avg'):(Math.abs(pct).toFixed(0)+'% below niche avg');
-  var titles={
-    twitch_live:'Twitch live RPM',kick_live:'Kick live RPM',
-    twitch_video:'Twitch VOD RPM',kick_video:'Kick VOD RPM',
-    youtube_shorts:'Shorts RPM',youtube_video:'YouTube RPM'
-  };
-  var hints={
-    twitch_live:'Your take-home per 1K ad impressions — check Twitch dashboard → Ads Manager',
-    kick_live:'Your take-home per 1K ad impressions — check Kick creator dashboard',
-    twitch_video:'Revenue per 1K VOD views — lower than live; fewer ad breaks on recorded content',
-    kick_video:'Revenue per 1K VOD / clip views — Kick VOD monetization is maturing',
-    youtube_shorts:'Revenue per 1K Shorts views — check YouTube Studio → Analytics → Revenue',
-    youtube_video:'Revenue per 1K views — check YouTube Studio → Analytics → Revenue tab',
-  };
-  wrap.innerHTML='<div class="rpm-banner">'
-    +'<div class="rpm-top"><div class="rpm-label"><strong>'+titles[key]+'</strong><span>'+hints[key]+'</span></div>'
-    +'<div class="rpm-ctrl"><input type="number" id="rpmInp" value="'+cur.toFixed(2)+'" min="0.01" max="100" step="0.01"><span class="rpm-unit">$/1K</span></div></div>'
-    +'<div><span class="rpm-badge '+bc+'" id="rpmBadge">'+bt+'</span></div>'
-    +'<div class="rpm-note">Niche avg for "'+n.name+'" + '+r.name+': $'+lo.toFixed(2)+' – $'+hi.toFixed(2)+' per 1K impressions. Enter your real number above to override.</div>'
-    +'</div>';
-  document.getElementById('rpmInp').addEventListener('input',function(){
-    var v=parseFloat(this.value);
-    if(isNaN(v)||v<=0)return;
-    if(v>100){v=100;this.value=100;}
-    S[rk]=v;
-    var np=(v-avg)/avg*100;
-    var nb=np>=0?'good':'warn';
-    var nbt=np>=0?('+'+np.toFixed(0)+'% above niche avg'):(Math.abs(np).toFixed(0)+'% below niche avg');
-    var badge=document.getElementById('rpmBadge');
-    if(badge){badge.className='rpm-badge '+nb;badge.textContent=nbt;}
-    renderResults();
-  });
-}
-
-function calcLive(){
-  var key=mk(),n=nicheData[key][S.niche],r=regions[S.region];
-  var isKick=key==='kick_live';
-  var comp=isKick?0.65:0.68;
-  var rk=rpmKeyFor(key);
-  var rpm=S[rk]; // r.mult already baked in by autoSetAvgRpm
-  var imp=S.viewers*S.adMin*S.hours*S.streamDays*comp;
-  var mid=imp/1000*rpm;
-  var nicheAvg=(n.rpmMin+n.rpmMax)/2*r.mult;
-  var ratio=nicheAvg>0?rpm/nicheAvg:1;
-  var low=imp/1000*n.rpmMin*r.mult*ratio;
-  var high=imp/1000*n.rpmMax*r.mult*ratio;
-  return{low:low,mid:mid,high:high,perUnitLbl:'Daily avg',perUnit:fmtM(mid/S.streamDays),perUnitSub:S.hours+' hrs/day',cut:isKick?'95%':'55%'};
-}
-function calcVOD(){
-  var key=mk(),n=nicheData[key][S.niche],r=regions[S.region];
-  var rk=rpmKeyFor(key);
-  var rpm=S[rk]; // r.mult already baked in by autoSetAvgRpm
-  var nicheAvg=(n.rpmMin+n.rpmMax)/2*r.mult;
-  var ratio=nicheAvg>0?rpm/nicheAvg:1;
-  var low=S.vodViews/1000*n.rpmMin*r.mult*ratio*S.vodVideos;
-  var high=S.vodViews/1000*n.rpmMax*r.mult*ratio*S.vodVideos;
-  var mid=S.vodViews/1000*rpm*S.vodVideos;
-  return{low:low,mid:mid,high:high,perUnitLbl:'Per video',perUnit:fmtM(S.vodViews/1000*rpm),perUnitSub:fmtV(S.vodViews)+' views',cut:'~55%'};
-}
-function calcShorts(){
-  var n=nicheData['youtube_shorts'][S.niche],r=regions[S.region];
-  var rpm=S.shortRpm; // r.mult already baked in by autoSetAvgRpm
-  var nicheAvg=(n.rpmMin+n.rpmMax)/2*r.mult;
-  var ratio=nicheAvg>0?rpm/nicheAvg:1;
-  var low=S.shortViews/1000*n.rpmMin*r.mult*ratio;
-  var high=S.shortViews/1000*n.rpmMax*r.mult*ratio;
-  var mid=S.shortViews/1000*rpm;
-  return{low:low,mid:mid,high:high,perUnitLbl:'Per 1M views',perUnit:fmtM(mid/(S.shortViews/1000000)),perUnitSub:'rough avg',cut:'45%'};
-}
-function calcYTVideo(){
-  var n=nicheData['youtube_video'][S.niche],r=regions[S.region];
-  var rpm=S.ytRpm; // r.mult already baked in by autoSetAvgRpm
-  var nicheAvg=(n.rpmMin+n.rpmMax)/2*r.mult;
-  var ratio=nicheAvg>0?rpm/nicheAvg:1;
-  var low=S.ytViews/1000*n.rpmMin*r.mult*ratio*S.ytVideos;
-  var high=S.ytViews/1000*n.rpmMax*r.mult*ratio*S.ytVideos;
-  var mid=S.ytViews/1000*rpm*S.ytVideos;
-  return{low:low,mid:mid,high:high,perUnitLbl:'Per video',perUnit:fmtM(S.ytViews/1000*rpm),perUnitSub:fmtV(S.ytViews)+' views',cut:'55%'};
-}
-function getResult(){
-  var key=mk();
-  if(key==='twitch_live'||key==='kick_live')return calcLive();
-  if(key==='twitch_video'||key==='kick_video')return calcVOD();
-  if(key==='youtube_shorts')return calcShorts();
-  return calcYTVideo();
-}
-
-function stackTotal(){
-  var t=0,sv=S.stackVals;
-  if(S.stack.subs)      t+=sv.subsPerMonth*sv.subPrice*0.5;
-  if(S.stack.donations) t+=sv.donationsPerMonth;
-  if(S.stack.brandDeals)t+=sv.brandDealsPerMonth;
-  if(S.stack.merch)     t+=sv.merchPerMonth;
-  return t;
-}
-
-function getMidAllModes(){
-  var r=regions[S.region],ni=S.niche;
-  var activeKey=mk();
-  var list=[
-    {p:'twitch', m:'live',  lbl:'Twitch live'},
-    {p:'twitch', m:'video', lbl:'Twitch VOD'},
-    {p:'kick',   m:'live',  lbl:'Kick live'},
-    {p:'kick',   m:'video', lbl:'Kick VOD'},
-    {p:'youtube',m:'shorts',lbl:'YT Shorts'},
-    {p:'youtube',m:'video', lbl:'YouTube'},
-  ];
-  return list.map(function(x){
-    var key=x.p+'_'+x.m;
-    var nList=nicheData[key];
-    var n=nList[Math.min(ni,nList.length-1)];
-    // Use user's actual RPM for the active mode; niche avg for all others
-    var nicheAvgRpm=(n.rpmMin+n.rpmMax)/2*r.mult;
-    var rpm=(key===activeKey)?S[rpmKeyFor(key)]:nicheAvgRpm;
-    var v=0;
-    if(key==='twitch_live'){var imp=S.viewers*S.adMin*S.hours*S.streamDays*0.68;v=imp/1000*rpm;}
-    else if(key==='kick_live'){var imp2=S.viewers*S.adMin*S.hours*S.streamDays*0.65;v=imp2/1000*rpm;}
-    else if(key==='twitch_video'){v=S.vodViews/1000*rpm*S.vodVideos;}
-    else if(key==='kick_video'){v=S.vodViews/1000*rpm*S.vodVideos;}
-    else if(key==='youtube_shorts'){v=S.shortViews/1000*rpm;}
-    else{v=S.ytViews/1000*rpm*S.ytVideos;}
-    return{lbl:x.lbl,key:key,v:v};
-  });
-}
-
-function buildInsight(key){
-  var r=regions[S.region];
-  var warn=r.mult<0.4?'<strong>Region note:</strong> '+r.name+' has a '+Math.round(r.mult*100)+'% multiplier vs US/UK — a Western audience earns '+(1/r.mult).toFixed(1)+'x more. ':'';
-  if(key==='twitch_live')return warn+'<strong>Tip:</strong> 3 min/hr unlocks the Ads Incentive Program (55% cut). At '+fmtV(S.viewers)+' viewers, subs and donations typically match or beat ad revenue.';
-  if(key==='kick_live')  return warn+'<strong>Tip:</strong> Kick pays 95% revenue share — best in the industry. Lower CPMs than Twitch but the higher cut often wins net.';
-  if(key==='twitch_video'||key==='kick_video')return warn+'<strong>Note:</strong> VOD / clip RPMs are much lower than live. VODs work best as a discovery funnel to grow your live audience.';
-  if(key==='youtube_shorts')return warn+'<strong>Reality check:</strong> Shorts RPM is very low per view. The real power is funneling viewers into long-form videos where RPM is 50–100x higher.';
-  return warn+'<strong>Tip:</strong> RPM is your biggest lever — finance creators average $10–20 RPM vs $2–4 for entertainment. Check YouTube Studio → Analytics → Revenue for your real number.';
-}
-
-function renderSectionTabs(){
-  var tabs=[{id:'results',lbl:'Results'},{id:'stack',lbl:'Revenue stack'},{id:'tax',lbl:'Tax estimator'},{id:'breakeven',lbl:'Break-even'}];
-  var html='';
-  tabs.forEach(function(t){
-    html+='<span class="stab'+(t.id===S.activeSection?' active':'')+'" data-s="'+t.id+'">'+t.lbl+'</span>';
-  });
-  document.getElementById('sectionTabs').innerHTML=html;
-  document.querySelectorAll('.stab').forEach(function(el){
-    el.addEventListener('click',function(){
-      S.activeSection=el.getAttribute('data-s');
-      renderSectionTabs();
-      renderSectionContent();
-    });
-  });
-}
-
-function buildBeGrid(target){
-  var r2=regions[S.region];
-  var beItems2=[
-    {lbl:'Twitch live',  key:'twitch_live'},
-    {lbl:'Kick live',    key:'kick_live'},
-    {lbl:'YT Video',     key:'youtube_video'},
-    {lbl:'YT Shorts',    key:'youtube_shorts'},
-    {lbl:'Twitch VOD',   key:'twitch_video'},
-    {lbl:'Kick VOD',     key:'kick_video'},
-  ];
-  var g='<div class="be-grid">';
-  beItems2.forEach(function(bi){
-    var nList2=nicheData[bi.key];
-    var n2=nList2[Math.min(S.niche,nList2.length-1)];
-    var isActive2=bi.key===mk();
-    var metric2='',sub2='';
-    if(bi.key==='twitch_live'||bi.key==='kick_live'){
-      var comp2=bi.key==='kick_live'?0.65:0.68;
-      var avgRpmLive2=(n2.rpmMin+n2.rpmMax)/2*r2.mult;
-      var impNeeded2=target/(avgRpmLive2/1000);
-      var viewersNeeded2=Math.ceil(impNeeded2/(S.adMin*S.hours*S.streamDays*comp2));
-      metric2=fmtRaw(viewersNeeded2)+' viewers';
-      sub2='avg concurrent · '+S.hours+'h/day · '+S.streamDays+' days/mo';
-    } else if(bi.key==='twitch_video'||bi.key==='kick_video'){
-      var avgRpm4=(n2.rpmMin+n2.rpmMax)/2*r2.mult;
-      var totalViews2=Math.ceil(target/avgRpm4*1000);
-      metric2=fmtV(totalViews2)+' total views';
-      sub2='across all VODs this month';
-    } else if(bi.key==='youtube_shorts'){
-      var avgRpm5=(n2.rpmMin+n2.rpmMax)/2*r2.mult;
-      var viewsNeeded2=Math.ceil(target/avgRpm5*1000);
-      metric2=fmtV(viewsNeeded2)+' monthly views';
-      sub2='at niche avg RPM';
-    } else {
-      var avgRpm6=(n2.rpmMin+n2.rpmMax)/2*r2.mult;
-      var viewsPerVideo2=Math.ceil(target/(avgRpm6/1000*S.ytVideos));
-      metric2=fmtV(viewsPerVideo2)+' views/video';
-      sub2='publishing '+S.ytVideos+' videos/mo';
-    }
-    g+='<div class="be-card'+(isActive2?' active-be':'')+'">'
-      +'<div class="be-platform">'+bi.lbl+(isActive2?' · current':'')+'</div>'
-      +'<div class="be-metric">'+metric2+'</div>'
-      +'<div class="be-sub">'+sub2+'</div>'
-      +'</div>';
-  });
-  g+='</div>';
-  return g;
-}
-
-function renderSectionContent(){
-  var res=getResult();
-  var adMid=res.mid;
-  var el=document.getElementById('sectionContent');
-
-  if(S.activeSection==='results'){
-    var key=mk(),col=accentCol[key]||'#888780';
-    var maxVal=Math.max(res.high*1.1,1);
-    var bars=[{l:'Low',v:res.low,c:'#888780'},{l:'Mid',v:res.mid,c:col},{l:'High',v:res.high,c:col+'77'}];
-    var barHtml='';
-    bars.forEach(function(b){
-      var pct=Math.min(100,b.v/maxVal*100).toFixed(1);
-      barHtml+='<div class="bar-row"><div class="bar-lbl">'+b.l+'</div>'
-        +'<div class="bar-track"><div class="bar-fill" style="width:'+pct+'%;background:'+b.c+'"></div></div>'
-        +'<div class="bar-amt">'+fmtM(b.v)+'/mo</div></div>';
-    });
-    var cmpData=getMidAllModes();
-    var maxV=0;cmpData.forEach(function(x){if(x.v>maxV)maxV=x.v;});
-    var cmpHtml='<div class="compare-section"><div class="sec-lbl">Platform comparison — same niche &amp; region</div>'
-      +'<div class="compare-note">Mid niche estimate per platform using your current settings.</div>'
-      +'<div class="compare-grid">';
-    cmpData.forEach(function(x){
-      var isActive=x.key===key;
-      var isBest=maxV>0&&Math.abs(x.v-maxV)<0.01;
-      cmpHtml+='<div class="cc'+(isActive?' active':'')+'">'
-        +'<div class="cc-name">'+x.lbl+'</div>'
-        +'<div class="cc-val">'+fmtM(x.v)+'/mo</div>'
-        +(isBest&&x.v>0?'<div class="cc-badge">highest</div>':'')
-        +'</div>';
-    });
-    cmpHtml+='</div></div>';
-    var metaHtml='<div class="metric"><div class="ml">Monthly mid</div><div class="mv">'+fmtM(res.mid)+'</div><div class="ms">your take-home</div></div>'
-      +'<div class="metric"><div class="ml">'+res.perUnitLbl+'</div><div class="mv">'+res.perUnit+'</div><div class="ms">'+res.perUnitSub+'</div></div>'
-      +'<div class="metric"><div class="ml">Creator cut</div><div class="mv">'+res.cut+'</div><div class="ms">already applied</div></div>';
-    el.innerHTML='<div class="metrics">'+metaHtml+'</div>'
-      +'<div class="divider" style="margin:0 0 1rem;"></div>'
-      +'<div class="sec-lbl">Monthly estimate range</div>'+barHtml
-      +cmpHtml
-      +'<div class="insight">'+buildInsight(key)+'</div>'
-      +'<div class="footnote">All figures are your take-home after the platform cut. Estimates only. Not financial advice.</div>';
-
-  } else if(S.activeSection==='stack'){
-    var sv=S.stackVals;
-    var items=[
-      {key:'subs',       lbl:'Subscriptions / memberships', sub:'Twitch subs, YouTube members, Kick subs'},
-      {key:'donations',  lbl:'Donations / tips / bits',      sub:'StreamElements, StreamLabs, Twitch Bits'},
-      {key:'brandDeals', lbl:'Brand deals / sponsorships',   sub:'Per-month average across all deals'},
-      {key:'merch',      lbl:'Merchandise',                  sub:'T-shirts, stickers, branded products'},
+  <script>
+    document.getElementById('footerYr').textContent = new Date().getFullYear();
+    var platforms = [
+      { id: 'twitch', name: 'Twitch', modes: ['live', 'video'] },
+      { id: 'kick', name: 'Kick', modes: ['live', 'video'] },
+      { id: 'youtube', name: 'YouTube', modes: ['shorts', 'video'] },
     ];
 
-    var stackHtml='<div class="sec-lbl">Toggle income streams on to add them</div><div class="stack-items">';
-    items.forEach(function(it){
-      var on=S.stack[it.key];
-      var earn=0;
-      if(it.key==='subs')       earn=sv.subsPerMonth*sv.subPrice*0.5;
-      if(it.key==='donations')  earn=sv.donationsPerMonth;
-      if(it.key==='brandDeals') earn=sv.brandDealsPerMonth;
-      if(it.key==='merch')      earn=sv.merchPerMonth;
+    var nicheData = {
+      twitch_live: [
+        { name: 'Finance / crypto', rpmMin: 3.30, rpmMax: 7.70 },
+        { name: 'Tech / coding', rpmMin: 2.75, rpmMax: 5.50 },
+        { name: 'Just chatting', rpmMin: 1.65, rpmMax: 3.30 },
+        { name: 'IRL', rpmMin: 1.10, rpmMax: 2.75 },
+        { name: 'Entertainment', rpmMin: 1.10, rpmMax: 2.75 },
+        { name: 'Gaming', rpmMin: 1.65, rpmMax: 3.85 },
+        { name: 'Esports', rpmMin: 2.20, rpmMax: 4.95 },
+        { name: 'Music / DJ', rpmMin: 0.83, rpmMax: 1.93 },
+      ],
+      twitch_video: [
+        { name: 'Finance / crypto', rpmMin: 1.5, rpmMax: 3.5 },
+        { name: 'Tech / coding', rpmMin: 1.2, rpmMax: 3.0 },
+        { name: 'Just chatting', rpmMin: 0.8, rpmMax: 2.0 },
+        { name: 'IRL / vlog', rpmMin: 0.8, rpmMax: 2.0 },
+        { name: 'Entertainment', rpmMin: 0.7, rpmMax: 1.8 },
+        { name: 'Gaming', rpmMin: 1.0, rpmMax: 2.5 },
+        { name: 'Esports', rpmMin: 1.2, rpmMax: 3.0 },
+        { name: 'Music', rpmMin: 0.5, rpmMax: 1.5 },
+      ],
+      kick_live: [
+        { name: 'Finance / crypto', rpmMin: 3.80, rpmMax: 9.50 },
+        { name: 'Tech / coding', rpmMin: 3.33, rpmMax: 7.60 },
+        { name: 'Just chatting', rpmMin: 1.90, rpmMax: 4.28 },
+        { name: 'IRL', rpmMin: 1.43, rpmMax: 3.80 },
+        { name: 'Entertainment', rpmMin: 1.43, rpmMax: 3.80 },
+        { name: 'Gaming', rpmMin: 1.90, rpmMax: 4.75 },
+        { name: 'Esports', rpmMin: 2.85, rpmMax: 6.65 },
+        { name: 'Music / DJ', rpmMin: 0.95, rpmMax: 2.85 },
+      ],
+      kick_video: [
+        { name: 'Finance / crypto', rpmMin: 0.8, rpmMax: 2.0 },
+        { name: 'Tech / coding', rpmMin: 0.7, rpmMax: 1.8 },
+        { name: 'Just chatting', rpmMin: 0.4, rpmMax: 1.2 },
+        { name: 'IRL / vlog', rpmMin: 0.4, rpmMax: 1.2 },
+        { name: 'Entertainment', rpmMin: 0.3, rpmMax: 1.0 },
+        { name: 'Gaming', rpmMin: 0.5, rpmMax: 1.5 },
+        { name: 'Esports', rpmMin: 0.6, rpmMax: 1.8 },
+        { name: 'Music', rpmMin: 0.3, rpmMax: 0.9 },
+      ],
+      youtube_shorts: [
+        { name: 'Finance / crypto', rpmMin: 0.03, rpmMax: 0.12 },
+        { name: 'Tech / coding', rpmMin: 0.03, rpmMax: 0.10 },
+        { name: 'Entertainment', rpmMin: 0.01, rpmMax: 0.05 },
+        { name: 'Comedy / memes', rpmMin: 0.01, rpmMax: 0.04 },
+        { name: 'Lifestyle', rpmMin: 0.01, rpmMax: 0.05 },
+        { name: 'Gaming', rpmMin: 0.02, rpmMax: 0.07 },
+        { name: 'Education', rpmMin: 0.03, rpmMax: 0.09 },
+        { name: 'IRL / vlog', rpmMin: 0.01, rpmMax: 0.05 },
+      ],
+      youtube_video: [
+        { name: 'Finance / investing', rpmMin: 8, rpmMax: 22 },
+        { name: 'Tech / software', rpmMin: 6, rpmMax: 15 },
+        { name: 'Education', rpmMin: 5, rpmMax: 12 },
+        { name: 'Gaming', rpmMin: 3, rpmMax: 8 },
+        { name: 'Entertainment', rpmMin: 2, rpmMax: 6 },
+        { name: 'Lifestyle / vlog', rpmMin: 2, rpmMax: 5 },
+        { name: 'Comedy', rpmMin: 1.5, rpmMax: 4 },
+        { name: 'Music', rpmMin: 1, rpmMax: 3 },
+      ],
+    };
 
-      stackHtml+='<div class="sitem'+(on?' sitem-on':'')+'">'
-        +'<label class="sitem-header">'
-        +'<span class="sitem-cb"><input type="checkbox" id="cb_'+it.key+'"'+(on?' checked':'')+' data-k="'+it.key+'"><span class="sitem-box"></span></span>'
-        +'<span class="sitem-info"><span class="sitem-lbl">'+it.lbl+'</span><span class="sitem-sub">'+it.sub+'</span></span>'
-        +'<span class="sitem-earn">'+(on?fmtM(earn)+'/mo':'—')+'</span>'
-        +'</label>';
+    var regions = [
+      { name: 'US / UK / CA', mult: 1.00 },
+      { name: 'W. Europe', mult: 0.75 },
+      { name: 'E. Europe', mult: 0.45 },
+      { name: 'Asia', mult: 0.35 },
+      { name: 'LATAM', mult: 0.30 },
+      { name: 'CIS', mult: 0.25 },
+    ];
 
-      if(on){
-        stackHtml+='<div class="sitem-sliders">';
-        if(it.key==='subs'){
-          stackHtml+=sliderHTML('st_subs','Subscribers per month',10,500000,10,'stackVals.subsPerMonth',fmtRaw);
-          stackHtml+=sliderHTML('st_subprice','Avg sub price',1,25,0.5,'stackVals.subPrice',function(v){return'$'+parseFloat(v).toFixed(2);});
+    var accentCol = {
+      twitch_live: '#D4537E', twitch_video: '#D4537E',
+      kick_live: '#4a9e5c', kick_video: '#4a9e5c',
+      youtube_shorts: '#D85A30', youtube_video: '#378ADD',
+    };
+
+    var S = {
+      platform: 'twitch', mode: 'live', niche: 0, region: 0,
+      viewers: 1340, hours: 8, adMin: 3, streamDays: 22,
+      twitchLiveRpm: 2.20, kickLiveRpm: 2.85,
+      ytViews: 48000, ytVideos: 8, ytRpm: 4.00,
+      shortViews: 320000, shortRpm: 0.04,
+      vodViews: 8500, vodVideos: 6, twitchVodRpm: 1.50, kickVodRpm: 1.00,
+      taxRate: 25,
+      targetIncome: 3000,
+      growthPct: 0,
+      stack: { subs: false, donations: false, brandDeals: false, merch: false },
+      stackVals: { subsPerMonth: 120, subPrice: 4.99, donationsPerMonth: 150, brandDealsPerMonth: 500, merchPerMonth: 200 },
+      activeSection: 'results',
+    };
+
+    function mk() { return S.platform + '_' + S.mode; }
+
+    function detectRegion() {
+      try {
+        var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        if (/America\/(New_York|Chicago|Denver|Los_Angeles|Toronto|Vancouver)|Europe\/London/.test(tz)) return 0;
+        if (/Europe\/(Paris|Berlin|Madrid|Rome|Amsterdam|Brussels|Vienna|Stockholm)/.test(tz)) return 1;
+        if (/Europe\/(Warsaw|Bucharest|Budapest|Prague|Sofia|Athens|Zagreb)/.test(tz)) return 2;
+        if (/Asia\/(Tokyo|Seoul|Shanghai|Singapore|Hong_Kong|Bangkok|Jakarta|Manila|Kolkata|Dubai)/.test(tz)) return 3;
+        if (/America\/(Sao_Paulo|Mexico_City|Buenos_Aires|Bogota|Lima|Santiago)/.test(tz)) return 4;
+        if (/Europe\/(Moscow|Kiev|Minsk)|Asia\/(Almaty|Tashkent)/.test(tz)) return 5;
+      } catch (e) {}
+      return 0;
+    }
+
+    function saveRegion() {
+      try { localStorage.setItem('mm_region', String(S.region)); } catch (e) {}
+    }
+    function loadRegion() {
+      try {
+        var saved = localStorage.getItem('mm_region');
+        if (saved !== null) {
+          var i = parseInt(saved);
+          if (i >= 0 && i < regions.length) { S.region = i; return; }
         }
-        if(it.key==='donations')
-          stackHtml+=sliderHTML('st_don','Monthly donations total',10,500000,10,'stackVals.donationsPerMonth',function(v){return'$'+Math.round(v);});
-        if(it.key==='brandDeals')
-          stackHtml+=sliderHTML('st_brand','Monthly deal value',100,300000,100,'stackVals.brandDealsPerMonth',function(v){return'$'+Math.round(v);});
-        if(it.key==='merch')
-          stackHtml+=sliderHTML('st_merch','Monthly merch income',10,500000,10,'stackVals.merchPerMonth',function(v){return'$'+Math.round(v);});
-        stackHtml+='</div>';
+      } catch (e) {}
+      S.region = detectRegion();
+    }
+
+    function buildShareUrl() {
+      var p = new URLSearchParams();
+      p.set('p', S.platform);
+      p.set('m', S.mode);
+      p.set('n', S.niche);
+      p.set('r', S.region);
+      p.set('v', S.viewers);
+      p.set('h', S.hours);
+      p.set('a', S.adMin);
+      p.set('d', S.streamDays);
+      p.set('rpm', S[rpmKeyFor(mk())]);
+      p.set('tax', S.taxRate);
+      var base = '';
+      try {
+        if (location.protocol === 'http:' || location.protocol === 'https:') {
+          base = location.origin + location.pathname;
+        } else {
+          base = 'https://moneymeter.xyz/';
+        }
+      } catch (e) {
+        base = 'https://moneymeter.xyz/';
       }
-      stackHtml+='</div>';
-    });
-    stackHtml+='</div>';
+      return base + '?' + p.toString();
+    }
 
-    var stk=stackTotal();
-    var totalHtml='<div class="stack-total">'
-      +'<div><div class="st-lbl">Total monthly income</div><div class="st-val">'+fmtM(adMid+stk)+'</div>'
-      +'<div class="st-sub">Ads '+fmtM(adMid)+' + extras '+fmtM(stk)+'</div></div>'
-      +'<div><div class="st-lbl">Annual projection</div><div class="st-val">'+fmtM((adMid+stk)*12)+'</div></div>'
-      +'</div>';
+    function loadFromUrl() {
+      try {
+        var p = new URLSearchParams(location.search);
+        if (!p.has('p')) return false;
+        if (p.get('p')) S.platform = p.get('p');
+        if (p.get('m')) S.mode = p.get('m');
+        if (p.get('n')) S.niche = parseInt(p.get('n')) || 0;
+        if (p.get('r')) S.region = parseInt(p.get('r')) || 0;
+        if (p.get('v')) S.viewers = parseFloat(p.get('v')) || S.viewers;
+        if (p.get('h')) S.hours = parseFloat(p.get('h')) || S.hours;
+        if (p.get('a')) S.adMin = parseFloat(p.get('a')) || S.adMin;
+        if (p.get('d')) S.streamDays = parseFloat(p.get('d')) || S.streamDays;
+        if (p.get('tax')) S.taxRate = parseFloat(p.get('tax')) || S.taxRate;
+        if (p.get('rpm')) {
+          var rk = rpmKeyFor(mk());
+          S[rk] = parseFloat(p.get('rpm')) || S[rk];
+        }
+        return true;
+      } catch (e) { return false; }
+    }
 
-    el.innerHTML=stackHtml+totalHtml;
+    function markCopied(btn) {
+      if (!btn) return;
+      var old = btn.getAttribute('data-label') || btn.textContent;
+      btn.setAttribute('data-label', old);
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function () {
+        btn.textContent = btn.getAttribute('data-label') || old;
+        btn.classList.remove('copied');
+      }, 1800);
+    }
 
-    document.querySelectorAll('.sitem-cb input[type=checkbox]').forEach(function(cb){
-      cb.addEventListener('change',function(){
-        S.stack[cb.getAttribute('data-k')]=cb.checked;
-        renderSectionContent();
+    function copyText(text, btn) {
+      function fallback() {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.top = '0';
+          ta.style.left = '0';
+          ta.style.width = '2em';
+          ta.style.height = '2em';
+          ta.style.padding = '0';
+          ta.style.border = 'none';
+          ta.style.outline = 'none';
+          ta.style.boxShadow = 'none';
+          ta.style.background = 'transparent';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          ta.setSelectionRange(0, text.length);
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          if (ok) {
+            markCopied(btn);
+            return true;
+          }
+        } catch (e) {}
+        // Last resort: show the text so user can copy manually
+        window.prompt('Copy this:', text);
+        markCopied(btn);
+        return false;
+      }
+
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+        navigator.clipboard.writeText(text).then(function () {
+          markCopied(btn);
+        }).catch(function () {
+          fallback();
+        });
+      } else {
+        fallback();
+      }
+    }
+
+    function fmtM(n) {
+      if (n >= 1000000) return '$' + (n / 1000000).toFixed(2) + 'M';
+      if (n >= 1000) return '$' + Math.round(n).toLocaleString();
+      return '$' + Math.round(n);
+    }
+    function fmtV(n) {
+      n = parseFloat(n);
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return n >= 10000 ? Math.round(n / 1000) + 'K' : (n / 1000).toFixed(1) + 'K';
+      return '' + Math.round(n);
+    }
+    function fmtRaw(n) { return Math.round(n).toLocaleString(); }
+
+    function getNestedVal(key) { var parts = key.split('.'); return parts.length === 2 ? S[parts[0]][parts[1]] : S[key]; }
+    function setNestedVal(key, v) { var parts = key.split('.'); if (parts.length === 2) S[parts[0]][parts[1]] = v; else S[key] = v; }
+    function sliderHTML(id, lbl, min, max, step, key, dispFn) {
+      var v = getNestedVal(key);
+      return '<div class="sl-block">'
+        + '<div class="sl-header"><span class="sl-lbl">' + lbl + '</span>'
+        + '<span class="sl-val" id="out_' + id + '">' + dispFn(v) + '</span></div>'
+        + '<input type="range" id="sl_' + id + '" min="' + min + '" max="' + max + '" step="' + step + '" value="' + v + '">'
+        + '</div>';
+    }
+    function wireSlider(id, key, dispFn) {
+      var sl = document.getElementById('sl_' + id);
+      var out = document.getElementById('out_' + id);
+      if (!sl || !out) return;
+      sl.addEventListener('input', function () {
+        var v = parseFloat(sl.value);
+        setNestedVal(key, v);
+        out.textContent = dispFn(v);
+        renderAll();
+        if (S.activeSection === 'breakeven') {
+          var beWrap = document.getElementById('beGridWrap');
+          if (beWrap) beWrap.innerHTML = buildBeGrid(S.targetIncome);
+        }
+      });
+    }
+
+    function autoSetAvgRpm() {
+      var key = mk();
+      var n = nicheData[key][S.niche];
+      var r = regions[S.region];
+      var avg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+      var rk = rpmKeyFor(key);
+      S[rk] = parseFloat(avg.toFixed(2));
+    }
+
+    function buildInputCard() {
+      var key = mk();
+      var nList = nicheData[key];
+      var html = '';
+
+      html += '<div class="sec-lbl">Niche</div><div class="chip-row" id="nicheChips">';
+      for (var i = 0; i < nList.length; i++)
+        html += '<span class="chip' + (i === S.niche ? ' active' : '') + '" data-i="' + i + '">' + nList[i].name + '</span>';
+      html += '</div>';
+
+      html += '<div class="sec-lbl">Audience region</div><div class="chip-row" id="regionChips">';
+      for (var j = 0; j < regions.length; j++)
+        html += '<span class="chip' + (j === S.region ? ' active' : '') + '" data-i="' + j + '">' + regions[j].name + '</span>';
+      html += '</div><div class="divider"></div>';
+
+      if (key === 'twitch_live' || key === 'kick_live') {
+        html += sliderHTML('viewers', 'Avg concurrent viewers', 50, 250000, 50, 'viewers', function (v) {
+          if (v < 1000) return Math.round(v) + '';
+          return fmtV(v);
+        });
+        html += sliderHTML('hours', 'Stream hours per day', 1, 24, 1, 'hours', function (v) { return v + ' hrs'; });
+        html += sliderHTML('adMin', 'Ad break minutes per hour', 1, 10, 1, 'adMin', function (v) { return v + ' min/hr'; });
+        html += sliderHTML('streamDays', 'Stream days per month', 5, 31, 1, 'streamDays', function (v) { return v + ' days'; });
+      } else if (key === 'twitch_video' || key === 'kick_video') {
+        html += sliderHTML('vodViews', 'Avg views per VOD / clip', 100, 10000000, 100, 'vodViews', fmtV);
+        html += sliderHTML('vodVideos', 'Videos uploaded per month', 1, 100, 1, 'vodVideos', function (v) { return v + ' videos'; });
+      } else if (key === 'youtube_shorts') {
+        html += sliderHTML('shortViews', 'Monthly Shorts views', 5000, 100000000, 5000, 'shortViews', fmtV);
+      } else if (key === 'youtube_video') {
+        html += sliderHTML('ytViews', 'Avg views per video', 500, 10000000, 500, 'ytViews', fmtV);
+        html += sliderHTML('ytVideos', 'Videos published per month', 1, 100, 1, 'ytVideos', function (v) { return v + ' videos'; });
+      }
+
+      document.getElementById('inputCard').innerHTML = html;
+
+      document.querySelectorAll('#nicheChips .chip').forEach(function (el) {
+        el.addEventListener('click', function () {
+          S.niche = parseInt(el.getAttribute('data-i'));
+          document.querySelectorAll('#nicheChips .chip').forEach(function (c) { c.classList.remove('active'); });
+          el.classList.add('active');
+          autoSetAvgRpm();
+          renderAll();
+          if (S.activeSection === 'breakeven') { var bw = document.getElementById('beGridWrap'); if (bw) bw.innerHTML = buildBeGrid(S.targetIncome); }
+        });
+      });
+      document.querySelectorAll('#regionChips .chip').forEach(function (el) {
+        el.addEventListener('click', function () {
+          S.region = parseInt(el.getAttribute('data-i'));
+          saveRegion();
+          document.querySelectorAll('#regionChips .chip').forEach(function (c) { c.classList.remove('active'); });
+          el.classList.add('active');
+          autoSetAvgRpm();
+          renderAll();
+          if (S.activeSection === 'breakeven') { var bw = document.getElementById('beGridWrap'); if (bw) bw.innerHTML = buildBeGrid(S.targetIncome); }
+        });
+      });
+
+      if (key === 'twitch_live' || key === 'kick_live') {
+        wireSlider('viewers', 'viewers', function (v) { return v < 1000 ? Math.round(v) + '' : fmtV(v); });
+        wireSlider('hours', 'hours', function (v) { return v + ' hrs'; });
+        wireSlider('adMin', 'adMin', function (v) { return v + ' min/hr'; });
+        wireSlider('streamDays', 'streamDays', function (v) { return v + ' days'; });
+        // Ad load warning
+        var adWarn = document.createElement('div');
+        adWarn.id = 'adWarn';
+        adWarn.className = 'ad-warn';
+        adWarn.style.display = S.adMin > 5 ? 'block' : 'none';
+        adWarn.textContent = 'High ad load (' + S.adMin + ' min/hr) can reduce average viewers and retention. 3 min/hr is the sweet spot for most streamers.';
+        var adSl = document.getElementById('sl_adMin');
+        if (adSl && adSl.parentNode) {
+          adSl.parentNode.appendChild(adWarn);
+          adSl.addEventListener('input', function () {
+            var v = parseFloat(adSl.value);
+            adWarn.style.display = v > 5 ? 'block' : 'none';
+            adWarn.textContent = 'High ad load (' + v + ' min/hr) can reduce average viewers and retention. 3 min/hr is the sweet spot for most streamers.';
+          });
+        }
+      } else if (key === 'twitch_video' || key === 'kick_video') {
+        wireSlider('vodViews', 'vodViews', fmtV);
+        wireSlider('vodVideos', 'vodVideos', function (v) { return v + ' videos'; });
+      } else if (key === 'youtube_shorts') {
+        wireSlider('shortViews', 'shortViews', fmtV);
+      } else if (key === 'youtube_video') {
+        wireSlider('ytViews', 'ytViews', fmtV);
+        wireSlider('ytVideos', 'ytVideos', function (v) { return v + ' videos'; });
+      }
+    }
+
+    function rpmKeyFor(key) {
+      if (key === 'twitch_live') return 'twitchLiveRpm';
+      if (key === 'kick_live') return 'kickLiveRpm';
+      if (key === 'youtube_shorts') return 'shortRpm';
+      if (key === 'twitch_video') return 'twitchVodRpm';
+      if (key === 'kick_video') return 'kickVodRpm';
+      return 'ytRpm';
+    }
+
+    function buildRpmBanner() {
+      var wrap = document.getElementById('rpmWrap');
+      var key = mk();
+      var n = nicheData[key][S.niche];
+      var r = regions[S.region];
+      var rk = rpmKeyFor(key);
+      var cur = S[rk];
+      var lo = n.rpmMin * r.mult, hi = n.rpmMax * r.mult, avg = (lo + hi) / 2;
+      var pct = (cur - avg) / avg * 100;
+      var bc = pct >= 0 ? 'good' : 'warn';
+      var bt = pct >= 0 ? ('+' + pct.toFixed(0) + '% above niche avg') : (Math.abs(pct).toFixed(0) + '% below niche avg');
+      var titles = {
+        twitch_live: 'Twitch live RPM', kick_live: 'Kick live RPM',
+        twitch_video: 'Twitch VOD RPM', kick_video: 'Kick VOD RPM',
+        youtube_shorts: 'Shorts RPM', youtube_video: 'YouTube RPM'
+      };
+      var hints = {
+        twitch_live: 'Your take-home per 1K ad impressions — check Twitch dashboard → Ads Manager',
+        kick_live: 'Your take-home per 1K ad impressions — check Kick creator dashboard',
+        twitch_video: 'Revenue per 1K VOD views — lower than live; fewer ad breaks on recorded content',
+        kick_video: 'Revenue per 1K VOD / clip views — Kick VOD monetization is maturing',
+        youtube_shorts: 'Revenue per 1K Shorts views — check YouTube Studio → Analytics → Revenue',
+        youtube_video: 'Revenue per 1K views — check YouTube Studio → Analytics → Revenue tab',
+      };
+      var kickVodNote = key === 'kick_video' ? '<div class="ad-warn" style="margin-top:8px;">Kick VOD monetization is still weaker than Twitch in most niches — treat these numbers as optimistic.</div>' : '';
+      wrap.innerHTML = '<div class="rpm-banner">'
+        + '<div class="rpm-top"><div class="rpm-label"><strong>' + titles[key] + '</strong><span>' + hints[key] + '</span></div>'
+        + '<div class="rpm-ctrl"><input type="number" id="rpmInp" value="' + cur.toFixed(2) + '" min="0.01" max="100" step="0.01"><span class="rpm-unit">$/1K</span></div></div>'
+        + '<div><span class="rpm-badge ' + bc + '" id="rpmBadge">' + bt + '</span></div>'
+        + '<div class="rpm-note">Niche avg for "' + n.name + '" + ' + r.name + ': $' + lo.toFixed(2) + ' – $' + hi.toFixed(2) + ' per 1K impressions. Enter your real number above to override.</div>'
+        + '<div class="data-note">RPM ranges based on 2025–2026 creator reports · Estimates only</div>'
+        + kickVodNote
+        + '</div>';
+      document.getElementById('rpmInp').addEventListener('input', function () {
+        var v = parseFloat(this.value);
+        if (isNaN(v) || v <= 0) return;
+        if (v > 100) { v = 100; this.value = 100; }
+        S[rk] = v;
+        var np = (v - avg) / avg * 100;
+        var nb = np >= 0 ? 'good' : 'warn';
+        var nbt = np >= 0 ? ('+' + np.toFixed(0) + '% above niche avg') : (Math.abs(np).toFixed(0) + '% below niche avg');
+        var badge = document.getElementById('rpmBadge');
+        if (badge) { badge.className = 'rpm-badge ' + nb; badge.textContent = nbt; }
         renderResults();
       });
-    });
+    }
 
-    function updateStackDisplay(){
-      var sv2=S.stackVals;
-      var allEarns={subs:sv2.subsPerMonth*sv2.subPrice*0.5,donations:sv2.donationsPerMonth,brandDeals:sv2.brandDealsPerMonth,merch:sv2.merchPerMonth};
-      document.querySelectorAll('.sitem').forEach(function(sitem){
-        var cb2=sitem.querySelector('input[type=checkbox]');
-        if(!cb2)return;
-        var k=cb2.getAttribute('data-k');
-        if(!S.stack[k])return;
-        var earnEl=sitem.querySelector('.sitem-earn');
-        if(earnEl)earnEl.textContent=fmtM(allEarns[k])+'/mo';
-      });
-      var stk3=stackTotal();
-      var adMid2=getResult().mid;
-      var stTotEls=document.querySelectorAll('.stack-total .st-val');
-      if(stTotEls[0])stTotEls[0].textContent=fmtM(adMid2+stk3);
-      if(stTotEls[1])stTotEls[1].textContent=fmtM((adMid2+stk3)*12);
-      var subEl=document.querySelector('.stack-total .st-sub');
-      if(subEl)subEl.textContent='Ads '+fmtM(adMid2)+' + extras '+fmtM(stk3);
-      var annualVal=document.querySelector('.annual-val');
-      if(annualVal)annualVal.textContent=fmtM((adMid2+stk3)*12);
-      document.querySelectorAll('.apill').forEach(function(pill){
-        var lbl=pill.querySelector('.apill-lbl');
-        if(!lbl)return;
-        var val=pill.querySelector('.apill-val');
-        if(!val)return;
-        if(lbl.textContent==='Monthly mid')val.textContent=fmtM(adMid2);
-        if(lbl.textContent==='Stack extras')val.textContent='+'+fmtM(stk3);
-        if(lbl.textContent.indexOf('tax')!==-1)val.textContent=fmtM((adMid2+stk3)*(1-S.taxRate/100))+'/mo';
+    function calcLive() {
+      var key = mk(), n = nicheData[key][S.niche], r = regions[S.region];
+      var isKick = key === 'kick_live';
+      var comp = isKick ? 0.65 : 0.68;
+      var rk = rpmKeyFor(key);
+      var rpm = S[rk]; // r.mult already baked in by autoSetAvgRpm
+      var imp = S.viewers * S.adMin * S.hours * S.streamDays * comp;
+      var mid = imp / 1000 * rpm;
+      var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+      var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
+      var low = imp / 1000 * n.rpmMin * r.mult * ratio;
+      var high = imp / 1000 * n.rpmMax * r.mult * ratio;
+      return { low: low, mid: mid, high: high, perUnitLbl: 'Daily avg', perUnit: fmtM(mid / S.streamDays), perUnitSub: S.hours + ' hrs/day', cut: isKick ? '95%' : '55%' };
+    }
+    function calcVOD() {
+      var key = mk(), n = nicheData[key][S.niche], r = regions[S.region];
+      var rk = rpmKeyFor(key);
+      var rpm = S[rk]; // r.mult already baked in by autoSetAvgRpm
+      var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+      var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
+      var low = S.vodViews / 1000 * n.rpmMin * r.mult * ratio * S.vodVideos;
+      var high = S.vodViews / 1000 * n.rpmMax * r.mult * ratio * S.vodVideos;
+      var mid = S.vodViews / 1000 * rpm * S.vodVideos;
+      return { low: low, mid: mid, high: high, perUnitLbl: 'Per video', perUnit: fmtM(S.vodViews / 1000 * rpm), perUnitSub: fmtV(S.vodViews) + ' views', cut: '~55%' };
+    }
+    function calcShorts() {
+      var n = nicheData['youtube_shorts'][S.niche], r = regions[S.region];
+      var rpm = S.shortRpm; // r.mult already baked in by autoSetAvgRpm
+      var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+      var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
+      var low = S.shortViews / 1000 * n.rpmMin * r.mult * ratio;
+      var high = S.shortViews / 1000 * n.rpmMax * r.mult * ratio;
+      var mid = S.shortViews / 1000 * rpm;
+      return { low: low, mid: mid, high: high, perUnitLbl: 'Per 1M views', perUnit: fmtM(mid / (S.shortViews / 1000000)), perUnitSub: 'rough avg', cut: '45%' };
+    }
+    function calcYTVideo() {
+      var n = nicheData['youtube_video'][S.niche], r = regions[S.region];
+      var rpm = S.ytRpm; // r.mult already baked in by autoSetAvgRpm
+      var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+      var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
+      var low = S.ytViews / 1000 * n.rpmMin * r.mult * ratio * S.ytVideos;
+      var high = S.ytViews / 1000 * n.rpmMax * r.mult * ratio * S.ytVideos;
+      var mid = S.ytViews / 1000 * rpm * S.ytVideos;
+      return { low: low, mid: mid, high: high, perUnitLbl: 'Per video', perUnit: fmtM(S.ytViews / 1000 * rpm), perUnitSub: fmtV(S.ytViews) + ' views', cut: '55%' };
+    }
+    function getResult() {
+      var key = mk();
+      if (key === 'twitch_live' || key === 'kick_live') return calcLive();
+      if (key === 'twitch_video' || key === 'kick_video') return calcVOD();
+      if (key === 'youtube_shorts') return calcShorts();
+      return calcYTVideo();
+    }
+
+    function stackTotal() {
+      var t = 0, sv = S.stackVals;
+      if (S.stack.subs) t += sv.subsPerMonth * sv.subPrice * 0.5;
+      if (S.stack.donations) t += sv.donationsPerMonth;
+      if (S.stack.brandDeals) t += sv.brandDealsPerMonth;
+      if (S.stack.merch) t += sv.merchPerMonth;
+      return t;
+    }
+
+    function getMidAllModes() {
+      var r = regions[S.region], ni = S.niche;
+      var activeKey = mk();
+      var list = [
+        { p: 'twitch', m: 'live', lbl: 'Twitch live' },
+        { p: 'twitch', m: 'video', lbl: 'Twitch VOD' },
+        { p: 'kick', m: 'live', lbl: 'Kick live' },
+        { p: 'kick', m: 'video', lbl: 'Kick VOD' },
+        { p: 'youtube', m: 'shorts', lbl: 'YT Shorts' },
+        { p: 'youtube', m: 'video', lbl: 'YouTube' },
+      ];
+      return list.map(function (x) {
+        var key = x.p + '_' + x.m;
+        var nList = nicheData[key];
+        var n = nList[Math.min(ni, nList.length - 1)];
+        // Use user's actual RPM for the active mode; niche avg for all others
+        var nicheAvgRpm = (n.rpmMin + n.rpmMax) / 2 * r.mult;
+        var rpm = (key === activeKey) ? S[rpmKeyFor(key)] : nicheAvgRpm;
+        var v = 0;
+        if (key === 'twitch_live') { var imp = S.viewers * S.adMin * S.hours * S.streamDays * 0.68; v = imp / 1000 * rpm; }
+        else if (key === 'kick_live') { var imp2 = S.viewers * S.adMin * S.hours * S.streamDays * 0.65; v = imp2 / 1000 * rpm; }
+        else if (key === 'twitch_video') { v = S.vodViews / 1000 * rpm * S.vodVideos; }
+        else if (key === 'kick_video') { v = S.vodViews / 1000 * rpm * S.vodVideos; }
+        else if (key === 'youtube_shorts') { v = S.shortViews / 1000 * rpm; }
+        else { v = S.ytViews / 1000 * rpm * S.ytVideos; }
+        return { lbl: x.lbl, key: key, v: v };
       });
     }
-    function wireSV(id,path,dispFn){
-      var sl=document.getElementById('sl_'+id);
-      var out=document.getElementById('out_'+id);
-      if(!sl||!out)return;
-      sl.addEventListener('input',function(){
-        var v=parseFloat(sl.value);
-        setNestedVal(path,v);
-        out.textContent=dispFn(v);
-        updateStackDisplay();
-      });
-    }
-    if(S.stack.subs){wireSV('st_subs','stackVals.subsPerMonth',fmtRaw);wireSV('st_subprice','stackVals.subPrice',function(v){return'$'+parseFloat(v).toFixed(2);});}
-    if(S.stack.donations) wireSV('st_don','stackVals.donationsPerMonth',function(v){return'$'+Math.round(v);});
-    if(S.stack.brandDeals)wireSV('st_brand','stackVals.brandDealsPerMonth',function(v){return'$'+Math.round(v);});
-    if(S.stack.merch)     wireSV('st_merch','stackVals.merchPerMonth',function(v){return'$'+Math.round(v);});
 
-  } else if(S.activeSection==='tax'){
-    var stk2=stackTotal();
-    var gross=adMid+stk2;
-    var taxAmt=gross*(S.taxRate/100);
-    var net=gross-taxAmt;
-    var taxHtml='<div class="sec-lbl">Income tax rate</div>';
-    taxHtml+=sliderHTML('taxRate','Your income tax rate %',5,55,1,'taxRate',function(v){return v+'%';});
-    taxHtml+='<div class="sec-lbl" style="margin-top:4px;">Region presets</div>';
-    taxHtml+='<div class="chip-row" id="taxPresets">'
-      +'<span class="chip" data-t="12">CIS ~12%</span>'
-      +'<span class="chip" data-t="20">E. Europe ~20%</span>'
-      +'<span class="chip" data-t="25">W. Europe ~25%</span>'
-      +'<span class="chip" data-t="30">UK ~30%</span>'
-      +'<span class="chip" data-t="38">US ~38%</span>'
-      +'</div>';
-    taxHtml+='<div class="tax-result">'
-      +'<div class="tax-row"><span class="tax-lbl">Gross monthly (ads + extras)</span><span class="tax-val">'+fmtM(gross)+'</span></div>'
-      +'<div class="tax-row"><span class="tax-lbl">Tax ('+S.taxRate+'%)</span><span class="tax-val">- '+fmtM(taxAmt)+'</span></div>'
-      +'<div class="tax-final"><span class="tf-lbl">Monthly take-home after tax</span><span class="tf-val">'+fmtM(net)+'</span></div>'
-      +'</div>'
-      +'<div class="footnote" style="margin-top:0.75rem;">Tax estimate only. Actual liability depends on deductible expenses, local rules, and filing status. Always consult a local accountant.</div>';
-    el.innerHTML=taxHtml;
-    // Wire tax slider: update result in-place without re-rendering (avoids drag-interruption)
-    var taxSl=document.getElementById('sl_taxRate');
-    var taxOut=document.getElementById('out_taxRate');
-    if(taxSl){
-      taxSl.addEventListener('input',function(){
-        var v=parseInt(taxSl.value);
-        S.taxRate=v;
-        if(taxOut)taxOut.textContent=v+'%';
-        var stk3=stackTotal();
-        var gross3=getResult().mid+stk3;
-        var ta=gross3*(v/100);
-        var nt=gross3-ta;
-        // Update tax result rows in-place
-        var rows=el.querySelectorAll('.tax-row .tax-val');
-        if(rows[0])rows[0].textContent=fmtM(gross3);
-        if(rows[1])rows[1].textContent='- '+fmtM(ta);
-        var tfv=el.querySelector('.tf-val');
-        if(tfv)tfv.textContent=fmtM(nt);
-        var taxLbl=el.querySelector('.tax-row:nth-child(2) .tax-lbl');
-        if(taxLbl)taxLbl.textContent='Tax ('+v+'%)';
-        // Update annual banner in-place (no DOM rebuild)
-        var annualVal=document.querySelector('.annual-val');
-        if(annualVal)annualVal.textContent=fmtM(gross3*12);
-        document.querySelectorAll('.apill').forEach(function(pill){
-          var lbl=pill.querySelector('.apill-lbl');
-          var val=pill.querySelector('.apill-val');
-          if(!lbl||!val)return;
-          if(lbl.textContent.indexOf('tax')!==-1){
-            lbl.textContent='After '+v+'% tax';
-            val.textContent=fmtM(nt)+'/mo';
-          }
+    function buildInsight(key) {
+      var r = regions[S.region];
+      var warn = r.mult < 0.4 ? '<strong>Region note:</strong> ' + r.name + ' has a ' + Math.round(r.mult * 100) + '% multiplier vs US/UK — a Western audience earns ' + (1 / r.mult).toFixed(1) + 'x more. ' : '';
+      if (key === 'twitch_live') return warn + '<strong>Tip:</strong> 3 min/hr unlocks the Ads Incentive Program (55% cut). At ' + fmtV(S.viewers) + ' viewers, subs and donations typically match or beat ad revenue.';
+      if (key === 'kick_live') return warn + '<strong>Tip:</strong> Kick pays 95% revenue share — best in the industry. Lower CPMs than Twitch but the higher cut often wins net.';
+      if (key === 'kick_video') return warn + '<strong>Note:</strong> Kick VOD monetization is still maturing and usually weaker than Twitch VOD. Use VODs mainly as a discovery funnel to your live streams.';
+      if (key === 'twitch_video') return warn + '<strong>Note:</strong> VOD / clip RPMs are much lower than live. VODs work best as a discovery funnel to grow your live audience.';
+      if (key === 'youtube_shorts') return warn + '<strong>Reality check:</strong> Shorts RPM is very low per view. The real power is funneling viewers into long-form videos where RPM is 50–100x higher.';
+      return warn + '<strong>Tip:</strong> RPM is your biggest lever — finance creators average $10–20 RPM vs $2–4 for entertainment. Check YouTube Studio → Analytics → Revenue for your real number.';
+    }
+
+    function renderSectionTabs() {
+      var tabs = [{ id: 'results', lbl: 'Results' }, { id: 'stack', lbl: 'Revenue stack' }, { id: 'tax', lbl: 'Tax estimator' }, { id: 'breakeven', lbl: 'Break-even' }];
+      var html = '';
+      tabs.forEach(function (t) {
+        html += '<span class="stab' + (t.id === S.activeSection ? ' active' : '') + '" data-s="' + t.id + '">' + t.lbl + '</span>';
+      });
+      document.getElementById('sectionTabs').innerHTML = html;
+      document.querySelectorAll('.stab').forEach(function (el) {
+        el.addEventListener('click', function () {
+          S.activeSection = el.getAttribute('data-s');
+          renderSectionTabs();
+          renderSectionContent();
         });
       });
     }
-    document.querySelectorAll('#taxPresets .chip').forEach(function(chip){
-      chip.addEventListener('click',function(){
-        S.taxRate=parseInt(chip.getAttribute('data-t'));
-        renderSectionContent();
-        renderResults();
-      });
-    });
 
-  } else if(S.activeSection==='breakeven'){
-    // Only build the shell once; update the grid in-place on input change
-    if(!document.getElementById('beTarget')){
-      el.innerHTML='<div class="sec-lbl">Target monthly income</div>'
-        +'<div class="number-row"><label>I want to earn per month</label>'
-        +'<input type="number" id="beTarget" value="'+S.targetIncome+'" min="100" max="1000000" step="100">'
-        +'<span class="nu">$/mo</span></div>'
-        +'<div id="beGridWrap"></div>'
-        +'<div class="footnote" style="margin-top:1rem;">Break-even uses mid niche RPM estimates for your selected region. Stream hours &amp; days sync live from your settings above. Actual numbers vary.</div>';
-      document.getElementById('beTarget').addEventListener('input',function(){
-        var v=parseFloat(this.value);
-        if(!isNaN(v)&&v>0){
-          if(v>1000000){v=1000000;this.value=1000000;}
-          S.targetIncome=v;
-          document.getElementById('beGridWrap').innerHTML=buildBeGrid(v);
+    function buildBeGrid(target) {
+      var r2 = regions[S.region];
+      var beItems2 = [
+        { lbl: 'Twitch live', key: 'twitch_live' },
+        { lbl: 'Kick live', key: 'kick_live' },
+        { lbl: 'YT Video', key: 'youtube_video' },
+        { lbl: 'YT Shorts', key: 'youtube_shorts' },
+        { lbl: 'Twitch VOD', key: 'twitch_video' },
+        { lbl: 'Kick VOD', key: 'kick_video' },
+      ];
+      var g = '<div class="be-grid">';
+      beItems2.forEach(function (bi) {
+        var nList2 = nicheData[bi.key];
+        var n2 = nList2[Math.min(S.niche, nList2.length - 1)];
+        var isActive2 = bi.key === mk();
+        var metric2 = '', sub2 = '';
+        if (bi.key === 'twitch_live' || bi.key === 'kick_live') {
+          var comp2 = bi.key === 'kick_live' ? 0.65 : 0.68;
+          var avgRpmLive2 = (n2.rpmMin + n2.rpmMax) / 2 * r2.mult;
+          var impNeeded2 = target / (avgRpmLive2 / 1000);
+          var viewersNeeded2 = Math.ceil(impNeeded2 / (S.adMin * S.hours * S.streamDays * comp2));
+          metric2 = fmtRaw(viewersNeeded2) + ' viewers';
+          sub2 = 'avg concurrent · ' + S.hours + 'h/day · ' + S.streamDays + ' days/mo';
+        } else if (bi.key === 'twitch_video' || bi.key === 'kick_video') {
+          var avgRpm4 = (n2.rpmMin + n2.rpmMax) / 2 * r2.mult;
+          var totalViews2 = Math.ceil(target / avgRpm4 * 1000);
+          metric2 = fmtV(totalViews2) + ' total views';
+          sub2 = 'across all VODs this month';
+        } else if (bi.key === 'youtube_shorts') {
+          var avgRpm5 = (n2.rpmMin + n2.rpmMax) / 2 * r2.mult;
+          var viewsNeeded2 = Math.ceil(target / avgRpm5 * 1000);
+          metric2 = fmtV(viewsNeeded2) + ' monthly views';
+          sub2 = 'at niche avg RPM';
+        } else {
+          var avgRpm6 = (n2.rpmMin + n2.rpmMax) / 2 * r2.mult;
+          var viewsPerVideo2 = Math.ceil(target / (avgRpm6 / 1000 * S.ytVideos));
+          metric2 = fmtV(viewsPerVideo2) + ' views/video';
+          sub2 = 'publishing ' + S.ytVideos + ' videos/mo';
         }
+        g += '<div class="be-card' + (isActive2 ? ' active-be' : '') + '">'
+          + '<div class="be-platform">' + bi.lbl + (isActive2 ? ' · current' : '') + '</div>'
+          + '<div class="be-metric">' + metric2 + '</div>'
+          + '<div class="be-sub">' + sub2 + '</div>'
+          + '</div>';
+      });
+      g += '</div>';
+      return g;
+    }
+
+    function renderSectionContent() {
+      var res = getResult();
+      var adMid = res.mid;
+      var el = document.getElementById('sectionContent');
+
+      if (S.activeSection === 'results') {
+        var key = mk(), col = accentCol[key] || '#888780';
+        var maxVal = Math.max(res.high * 1.1, 1);
+        var bars = [{ l: 'Low', v: res.low, c: '#888780' }, { l: 'Mid', v: res.mid, c: col }, { l: 'High', v: res.high, c: col + '77' }];
+        var barHtml = '';
+        bars.forEach(function (b) {
+          var pct = Math.min(100, b.v / maxVal * 100).toFixed(1);
+          barHtml += '<div class="bar-row"><div class="bar-lbl">' + b.l + '</div>'
+            + '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%;background:' + b.c + '"></div></div>'
+            + '<div class="bar-amt">' + fmtM(b.v) + '/mo</div></div>';
+        });
+        var cmpData = getMidAllModes();
+        var maxV = 0; cmpData.forEach(function (x) { if (x.v > maxV) maxV = x.v; });
+        var cmpHtml = '<div class="compare-section"><div class="sec-lbl">Platform comparison — same niche &amp; region</div>'
+          + '<div class="compare-note">Mid niche estimate per platform using your current settings.</div>'
+          + '<div class="compare-grid">';
+        cmpData.forEach(function (x) {
+          var isActive = x.key === key;
+          var isBest = maxV > 0 && Math.abs(x.v - maxV) < 0.01;
+          cmpHtml += '<div class="cc' + (isActive ? ' active' : '') + '">'
+            + '<div class="cc-name">' + x.lbl + '</div>'
+            + '<div class="cc-val">' + fmtM(x.v) + '/mo</div>'
+            + (isBest && x.v > 0 ? '<div class="cc-badge">highest</div>' : '')
+            + '</div>';
+        });
+        cmpHtml += '</div></div>';
+        var growthMid = res.mid * (1 + S.growthPct / 100);
+        var metaHtml = '<div class="metric"><div class="ml">Monthly mid</div><div class="mv">' + fmtM(res.mid) + '</div><div class="ms">your take-home</div></div>'
+          + '<div class="metric"><div class="ml">' + res.perUnitLbl + '</div><div class="mv">' + res.perUnit + '</div><div class="ms">' + res.perUnitSub + '</div></div>'
+          + '<div class="metric"><div class="ml">Creator cut</div><div class="mv">' + res.cut + '</div><div class="ms">already applied · take-home</div></div>';
+        var growthHtml = '<div class="growth-row">'
+          + '<label>If audience grows</label>'
+          + '<input type="range" id="sl_growth" min="0" max="100" step="5" value="' + S.growthPct + '">'
+          + '<span class="growth-val" id="out_growth">' + S.growthPct + '%</span>'
+          + '</div>'
+          + '<div class="growth-result" id="growthResult">' + (S.growthPct > 0 ? 'Projected monthly: <strong>' + fmtM(growthMid) + '</strong> · annual <strong>' + fmtM(growthMid * 12) + '</strong>' : 'Drag to project earnings if viewers/views grow') + '</div>';
+        el.innerHTML = '<div class="metrics">' + metaHtml + '</div>'
+          + '<div class="divider" style="margin:0 0 1rem;"></div>'
+          + '<div class="sec-lbl">Monthly estimate range</div>' + barHtml
+          + growthHtml
+          + cmpHtml
+          + '<div class="insight">' + buildInsight(key) + '</div>'
+          + '<div class="footnote">All figures are your take-home after the platform cut. Estimates only. Not financial advice.</div>';
+        var gSl = document.getElementById('sl_growth');
+        if (gSl) {
+          gSl.addEventListener('input', function () {
+            S.growthPct = parseInt(gSl.value);
+            var out = document.getElementById('out_growth');
+            if (out) out.textContent = S.growthPct + '%';
+            var gr = document.getElementById('growthResult');
+            var gm = getResult().mid * (1 + S.growthPct / 100);
+            if (gr) gr.innerHTML = S.growthPct > 0
+              ? 'Projected monthly: <strong>' + fmtM(gm) + '</strong> · annual <strong>' + fmtM(gm * 12) + '</strong>'
+              : 'Drag to project earnings if viewers/views grow';
+          });
+        }
+
+      } else if (S.activeSection === 'stack') {
+        var sv = S.stackVals;
+        var items = [
+          { key: 'subs', lbl: 'Subscriptions / memberships', sub: 'Twitch subs, YouTube members, Kick subs' },
+          { key: 'donations', lbl: 'Donations / tips / bits', sub: 'StreamElements, StreamLabs, Twitch Bits' },
+          { key: 'brandDeals', lbl: 'Brand deals / sponsorships', sub: 'Per-month average across all deals' },
+          { key: 'merch', lbl: 'Merchandise', sub: 'T-shirts, stickers, branded products' },
+        ];
+
+        var stackHtml = '<div class="sec-lbl">Add extra income streams</div><div class="stack-items">';
+        items.forEach(function (it) {
+          var on = S.stack[it.key];
+          var earn = 0;
+          if (it.key === 'subs') earn = sv.subsPerMonth * sv.subPrice * 0.5;
+          if (it.key === 'donations') earn = sv.donationsPerMonth;
+          if (it.key === 'brandDeals') earn = sv.brandDealsPerMonth;
+          if (it.key === 'merch') earn = sv.merchPerMonth;
+
+          stackHtml += '<div class="sitem' + (on ? ' sitem-on' : '') + '">'
+            + '<label class="sitem-header">'
+            + '<span class="sitem-cb"><input type="checkbox" id="cb_' + it.key + '"' + (on ? ' checked' : '') + ' data-k="' + it.key + '"><span class="sitem-box"></span></span>'
+            + '<span class="sitem-info"><span class="sitem-lbl">' + it.lbl + '</span><span class="sitem-sub">' + it.sub + '</span></span>'
+            + '<span class="sitem-earn">' + (on ? fmtM(earn) + '/mo' : '—') + '</span>'
+            + '</label>';
+
+          if (on) {
+            stackHtml += '<div class="sitem-sliders">';
+            if (it.key === 'subs') {
+              stackHtml += sliderHTML('st_subs', 'Subscribers per month', 10, 500000, 10, 'stackVals.subsPerMonth', fmtRaw);
+              stackHtml += sliderHTML('st_subprice', 'Avg sub price', 1, 25, 0.5, 'stackVals.subPrice', function (v) { return '$' + parseFloat(v).toFixed(2); });
+            }
+            if (it.key === 'donations')
+              stackHtml += sliderHTML('st_don', 'Monthly donations total', 10, 500000, 10, 'stackVals.donationsPerMonth', function (v) { return '$' + Math.round(v); });
+            if (it.key === 'brandDeals')
+              stackHtml += sliderHTML('st_brand', 'Monthly deal value', 100, 300000, 100, 'stackVals.brandDealsPerMonth', function (v) { return '$' + Math.round(v); });
+            if (it.key === 'merch')
+              stackHtml += sliderHTML('st_merch', 'Monthly merch income', 10, 500000, 10, 'stackVals.merchPerMonth', function (v) { return '$' + Math.round(v); });
+            stackHtml += '</div>';
+          }
+          stackHtml += '</div>';
+        });
+        stackHtml += '</div>';
+
+        var stk = stackTotal();
+        var totalHtml = '<div class="stack-total">'
+          + '<div style="text-align:center;flex:1;">'
+          + '<div class="st-lbl">Total monthly income</div>'
+          + '<div class="st-val">' + fmtM(adMid + stk) + '</div>'
+          + '<div class="st-sub">Ads ' + fmtM(adMid) + ' + extras ' + fmtM(stk) + '</div>'
+          + '</div>'
+          + '<div style="text-align:center;flex:1;">'
+          + '<div class="st-lbl">Annual projection</div>'
+          + '<div class="st-val">' + fmtM((adMid + stk) * 12) + '</div>'
+          + '</div>'
+          + '</div>';
+
+        el.innerHTML = stackHtml + totalHtml;
+
+        document.querySelectorAll('.sitem-cb input[type=checkbox]').forEach(function (cb) {
+          cb.addEventListener('change', function () {
+            S.stack[cb.getAttribute('data-k')] = cb.checked;
+            renderSectionContent();
+            renderResults();
+          });
+        });
+
+        function updateStackDisplay() {
+          var sv2 = S.stackVals;
+          var allEarns = { subs: sv2.subsPerMonth * sv2.subPrice * 0.5, donations: sv2.donationsPerMonth, brandDeals: sv2.brandDealsPerMonth, merch: sv2.merchPerMonth };
+          document.querySelectorAll('.sitem').forEach(function (sitem) {
+            var cb2 = sitem.querySelector('input[type=checkbox]');
+            if (!cb2) return;
+            var k = cb2.getAttribute('data-k');
+            if (!S.stack[k]) return;
+            var earnEl = sitem.querySelector('.sitem-earn');
+            if (earnEl) earnEl.textContent = fmtM(allEarns[k]) + '/mo';
+          });
+          var stk3 = stackTotal();
+          var adMid2 = getResult().mid;
+          var stTotEls = document.querySelectorAll('.stack-total .st-val');
+          if (stTotEls[0]) stTotEls[0].textContent = fmtM(adMid2 + stk3);
+          if (stTotEls[1]) stTotEls[1].textContent = fmtM((adMid2 + stk3) * 12);
+          var subEl = document.querySelector('.stack-total .st-sub');
+          if (subEl) subEl.textContent = 'Ads ' + fmtM(adMid2) + ' + extras ' + fmtM(stk3);
+          var annualVal = document.querySelector('.annual-val');
+          if (annualVal) annualVal.textContent = fmtM((adMid2 + stk3) * 12);
+          document.querySelectorAll('.apill').forEach(function (pill) {
+            var lbl = pill.querySelector('.apill-lbl');
+            if (!lbl) return;
+            var val = pill.querySelector('.apill-val');
+            if (!val) return;
+            if (lbl.textContent === 'Monthly mid') val.textContent = fmtM(adMid2);
+            if (lbl.textContent === 'Stack extras') val.textContent = '+' + fmtM(stk3);
+            if (lbl.textContent.indexOf('tax') !== -1) val.textContent = fmtM((adMid2 + stk3) * (1 - S.taxRate / 100)) + '/mo';
+          });
+        }
+        function wireSV(id, path, dispFn) {
+          var sl = document.getElementById('sl_' + id);
+          var out = document.getElementById('out_' + id);
+          if (!sl || !out) return;
+          sl.addEventListener('input', function () {
+            var v = parseFloat(sl.value);
+            setNestedVal(path, v);
+            out.textContent = dispFn(v);
+            updateStackDisplay();
+          });
+        }
+        if (S.stack.subs) { wireSV('st_subs', 'stackVals.subsPerMonth', fmtRaw); wireSV('st_subprice', 'stackVals.subPrice', function (v) { return '$' + parseFloat(v).toFixed(2); }); }
+        if (S.stack.donations) wireSV('st_don', 'stackVals.donationsPerMonth', function (v) { return '$' + Math.round(v); });
+        if (S.stack.brandDeals) wireSV('st_brand', 'stackVals.brandDealsPerMonth', function (v) { return '$' + Math.round(v); });
+        if (S.stack.merch) wireSV('st_merch', 'stackVals.merchPerMonth', function (v) { return '$' + Math.round(v); });
+
+      } else if (S.activeSection === 'tax') {
+        var stk2 = stackTotal();
+        var gross = adMid + stk2;
+        var taxAmt = gross * (S.taxRate / 100);
+        var net = gross - taxAmt;
+        var taxHtml = '<div class="sec-lbl">Income tax rate</div>';
+        taxHtml += sliderHTML('taxRate', 'Your income tax rate %', 5, 55, 1, 'taxRate', function (v) { return v + '%'; });
+        taxHtml += '<div class="sec-lbl" style="margin-top:4px;">Region presets</div>';
+        taxHtml += '<div class="chip-row" id="taxPresets">'
+          + '<span class="chip" data-t="12">CIS ~12%</span>'
+          + '<span class="chip" data-t="20">E. Europe ~20%</span>'
+          + '<span class="chip" data-t="25">W. Europe ~25%</span>'
+          + '<span class="chip" data-t="30">UK ~30%</span>'
+          + '<span class="chip" data-t="38">US ~38%</span>'
+          + '</div>';
+        taxHtml += '<div class="tax-result">'
+          + '<div class="tax-row"><span class="tax-lbl">Gross monthly (ads + extras)</span><span class="tax-val">' + fmtM(gross) + '</span></div>'
+          + '<div class="tax-row"><span class="tax-lbl">Tax (' + S.taxRate + '%)</span><span class="tax-val">- ' + fmtM(taxAmt) + '</span></div>'
+          + '<div class="tax-final"><span class="tf-lbl">Monthly take-home after tax</span><span class="tf-val">' + fmtM(net) + '</span></div>'
+          + '</div>'
+          + '<div class="footnote" style="margin-top:0.75rem;">Tax estimate only. Actual liability depends on deductible expenses, local rules, and filing status. Self-employed / freelancers often deduct equipment, software, home office, and internet. Always consult a local accountant.</div>';
+        el.innerHTML = taxHtml;
+        // Wire tax slider: update result in-place without re-rendering (avoids drag-interruption)
+        var taxSl = document.getElementById('sl_taxRate');
+        var taxOut = document.getElementById('out_taxRate');
+        if (taxSl) {
+          taxSl.addEventListener('input', function () {
+            var v = parseInt(taxSl.value);
+            S.taxRate = v;
+            if (taxOut) taxOut.textContent = v + '%';
+            var stk3 = stackTotal();
+            var gross3 = getResult().mid + stk3;
+            var ta = gross3 * (v / 100);
+            var nt = gross3 - ta;
+            // Update tax result rows in-place
+            var rows = el.querySelectorAll('.tax-row .tax-val');
+            if (rows[0]) rows[0].textContent = fmtM(gross3);
+            if (rows[1]) rows[1].textContent = '- ' + fmtM(ta);
+            var tfv = el.querySelector('.tf-val');
+            if (tfv) tfv.textContent = fmtM(nt);
+            var taxLbl = el.querySelector('.tax-row:nth-child(2) .tax-lbl');
+            if (taxLbl) taxLbl.textContent = 'Tax (' + v + '%)';
+            // Update annual banner in-place (no DOM rebuild)
+            var annualVal = document.querySelector('.annual-val');
+            if (annualVal) annualVal.textContent = fmtM(gross3 * 12);
+            document.querySelectorAll('.apill').forEach(function (pill) {
+              var lbl = pill.querySelector('.apill-lbl');
+              var val = pill.querySelector('.apill-val');
+              if (!lbl || !val) return;
+              if (lbl.textContent.indexOf('tax') !== -1) {
+                lbl.textContent = 'After ' + v + '% tax';
+                val.textContent = fmtM(nt) + '/mo';
+              }
+            });
+          });
+        }
+        document.querySelectorAll('#taxPresets .chip').forEach(function (chip) {
+          chip.addEventListener('click', function () {
+            S.taxRate = parseInt(chip.getAttribute('data-t'));
+            renderSectionContent();
+            renderResults();
+          });
+        });
+
+      } else if (S.activeSection === 'breakeven') {
+        // Only build the shell once; update the grid in-place on input change
+        if (!document.getElementById('beTarget')) {
+          el.innerHTML = '<div style="text-align:center;margin-bottom:1.25rem;">'
+            + '<div class="sec-lbl" style="margin-bottom:10px;">Target monthly income</div>'
+            + '<div class="number-row" style="justify-content:center;margin-bottom:0;">'
+            + '<input type="number" id="beTarget" value="' + S.targetIncome + '" min="100" max="1000000" step="100" style="width:140px;font-size:18px;">'
+            + '<span class="nu">$/mo</span></div>'
+            + '<div style="font-size:11px;color:var(--text3);margin-top:8px;">What you need on each platform to hit this goal</div>'
+            + '</div>'
+            + '<div id="beGridWrap"></div>'
+            + '<div class="footnote" style="margin-top:1rem;">Break-even uses mid niche RPM for your selected region. Hours &amp; days sync from settings above. Estimates only.</div>';
+          document.getElementById('beTarget').addEventListener('input', function () {
+            var v = parseFloat(this.value);
+            if (!isNaN(v) && v > 0) {
+              if (v > 1000000) { v = 1000000; this.value = 1000000; }
+              S.targetIncome = v;
+              document.getElementById('beGridWrap').innerHTML = buildBeGrid(v);
+            }
+          });
+        }
+        document.getElementById('beGridWrap').innerHTML = buildBeGrid(S.targetIncome);
+      }
+    }
+
+    function renderResults() {
+      // Tax section does in-place slider updates to avoid drag interruption; don't rebuild it
+      if (S.activeSection !== 'tax') {
+        renderSectionContent();
+      }
+      var res = getResult();
+      var stk = stackTotal();
+      var total = res.mid + stk;
+      var annual = total * 12;
+      var taxAmt = total * (S.taxRate / 100);
+      var net = total - taxAmt;
+      document.getElementById('annualWrap').innerHTML =
+        '<div class="annual-banner">'
+        + '<div><div class="annual-lbl">Annual earnings estimate</div>'
+        + '<div class="annual-val">' + fmtM(annual) + '</div>'
+        + '<div class="annual-sub">mid estimate · ads' + (stk > 0 ? ' + stack' : '') + ' · before tax</div>'
+        + '<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">'
+        + '<button type="button" class="copy-btn" id="copyEstBtn">Copy estimate</button>'
+        + '<button type="button" class="share-btn" id="shareBtn">Share link</button>'
+        + '</div></div>'
+        + '<div class="annual-pills">'
+        + '<div class="apill"><div class="apill-lbl">Monthly mid</div><div class="apill-val">' + fmtM(res.mid) + '</div></div>'
+        + (stk > 0 ? '<div class="apill"><div class="apill-lbl">Stack extras</div><div class="apill-val">+' + fmtM(stk) + '</div></div>' : '')
+        + '<div class="apill"><div class="apill-lbl">After ' + S.taxRate + '% tax</div><div class="apill-val">' + fmtM(net) + '/mo</div></div>'
+        + '</div>'
+        + '<div class="footnote" style="margin:0;text-align:center;">Estimates only · Not financial advice</div>'
+        + '</div>';
+      var copyBtn = document.getElementById('copyEstBtn');
+      if (copyBtn) {
+        copyBtn.onclick = function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var txt = 'Creator earnings estimate\n'
+            + 'Annual (mid): ' + fmtM(annual) + '\n'
+            + 'Monthly mid: ' + fmtM(res.mid) + '\n'
+            + (stk > 0 ? 'Stack extras: +' + fmtM(stk) + '\n' : '')
+            + 'After ' + S.taxRate + '% tax: ' + fmtM(net) + '/mo\n'
+            + 'Platform: ' + S.platform + ' · ' + S.mode + '\n'
+            + 'via MoneyMeter';
+          copyText(txt, copyBtn);
+        };
+      }
+      var shareBtn = document.getElementById('shareBtn');
+      if (shareBtn) {
+        shareBtn.onclick = function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var url = buildShareUrl();
+          copyText(url, shareBtn);
+        };
+      }
+      // If tax tab is open, refresh its result rows in-place (gross may have changed via RPM/niche)
+      if (S.activeSection === 'tax') {
+        var sc = document.getElementById('sectionContent');
+        var rows = sc && sc.querySelectorAll('.tax-row .tax-val');
+        if (rows && rows[0]) rows[0].textContent = fmtM(total);
+        if (rows && rows[1]) rows[1].textContent = '- ' + fmtM(taxAmt);
+        var tfv = sc && sc.querySelector('.tf-val');
+        if (tfv) tfv.textContent = fmtM(net);
+        var taxLbl = sc && sc.querySelector('.tax-row:nth-child(2) .tax-lbl');
+        if (taxLbl) taxLbl.textContent = 'Tax (' + S.taxRate + '%)';
+      }
+    }
+
+    function renderAll() {
+      buildRpmBanner();
+      renderResults();
+    }
+
+    function buildModeRow() {
+      var p = platforms.find(function (x) { return x.id === S.platform; });
+      var labels = S.platform === 'youtube'
+        ? { shorts: 'Shorts', video: 'Long-form' }
+        : { live: 'Live stream', video: 'VOD / Clips' };
+      var html = '';
+      p.modes.forEach(function (m) {
+        html += '<button class="mode-btn' + (m === S.mode ? ' active' : '') + '" data-m="' + m + '">' + labels[m] + '</button>';
+      });
+      document.getElementById('modeRow').innerHTML = html;
+      document.querySelectorAll('.mode-btn').forEach(function (el) {
+        el.addEventListener('click', function () {
+          S.mode = el.getAttribute('data-m');
+          S.niche = 0;
+          buildModeRow();
+          buildInputCard();
+          autoSetAvgRpm();
+          renderAll();
+        });
       });
     }
-    document.getElementById('beGridWrap').innerHTML=buildBeGrid(S.targetIncome);
-  }
-}
 
-function renderResults(){
-  // Tax section does in-place slider updates to avoid drag interruption; don't rebuild it
-  if(S.activeSection!=='tax'){
-    renderSectionContent();
-  }
-  var res=getResult();
-  var stk=stackTotal();
-  var total=res.mid+stk;
-  var annual=total*12;
-  var taxAmt=total*(S.taxRate/100);
-  var net=total-taxAmt;
-  document.getElementById('annualWrap').innerHTML=
-    '<div class="annual-banner">'
-    +'<div><div class="annual-lbl">Annual earnings estimate</div>'
-    +'<div class="annual-val">'+fmtM(annual)+'</div>'
-    +'<div class="annual-sub">mid estimate · ads'+(stk>0?' + stack':'')+' · before tax</div></div>'
-    +'<div class="annual-pills">'
-    +'<div class="apill"><div class="apill-lbl">Monthly mid</div><div class="apill-val">'+fmtM(res.mid)+'</div></div>'
-    +(stk>0?'<div class="apill"><div class="apill-lbl">Stack extras</div><div class="apill-val">+'+fmtM(stk)+'</div></div>':'')
-    +'<div class="apill"><div class="apill-lbl">After '+S.taxRate+'% tax</div><div class="apill-val">'+fmtM(net)+'/mo</div></div>'
-    +'</div>'
-    +'</div>';
-  // If tax tab is open, refresh its result rows in-place (gross may have changed via RPM/niche)
-  if(S.activeSection==='tax'){
-    var sc=document.getElementById('sectionContent');
-    var rows=sc&&sc.querySelectorAll('.tax-row .tax-val');
-    if(rows&&rows[0])rows[0].textContent=fmtM(total);
-    if(rows&&rows[1])rows[1].textContent='- '+fmtM(taxAmt);
-    var tfv=sc&&sc.querySelector('.tf-val');
-    if(tfv)tfv.textContent=fmtM(net);
-    var taxLbl=sc&&sc.querySelector('.tax-row:nth-child(2) .tax-lbl');
-    if(taxLbl)taxLbl.textContent='Tax ('+S.taxRate+'%)';
-  }
-}
+    function buildPlatformTabs() {
+      var html = '';
+      platforms.forEach(function (p) {
+        html += '<div class="ptab' + (p.id === S.platform ? ' active' : '') + '" data-id="' + p.id + '">'
+          + '<div class="ptab-name">' + p.name + '</div>'
+          + '<div class="ptab-sub">' + (p.id === 'youtube' ? 'Shorts · Long-form' : 'Live · VOD') + '</div>'
+          + '</div>';
+      });
+      // 4th slot — only visible on mobile as Support button
+      html += '<a class="ptab ptab-support" href="./donate.html"   rel="noopener">'
+        + '<div class="ptab-name"> Support</div>'
+        // +'<div class="ptab-sub">Buy me a coffee</div>'
+        + '</a>';
+      document.getElementById('ptabs').innerHTML = html;
+      document.querySelectorAll('.ptab').forEach(function (el) {
+        el.addEventListener('click', function () {
+          var id = el.getAttribute('data-id');
+          if (!id) return; // support slot has no data-id
+          S.platform = id;
+          S.niche = 0;
+          var pDef = platforms.find(function (x) { return x.id === S.platform; });
+          S.mode = pDef.modes[0];
+          buildPlatformTabs();
+          buildModeRow();
+          buildInputCard();
+          autoSetAvgRpm();  
+          renderAll();
+        });
+      });
+    }
 
-function renderAll(){
-  buildRpmBanner();
-  renderResults();
-}
-
-function buildModeRow(){
-  var p=platforms.find(function(x){return x.id===S.platform;});
-  var labels={live:'Live stream',video:'Uploaded video',shorts:'Short videos'};
-  var html='';
-  p.modes.forEach(function(m){
-    html+='<button class="mode-btn'+(m===S.mode?' active':'')+'" data-m="'+m+'">'+labels[m]+'</button>';
-  });
-  document.getElementById('modeRow').innerHTML=html;
-  document.querySelectorAll('.mode-btn').forEach(function(el){
-    el.addEventListener('click',function(){
-      S.mode=el.getAttribute('data-m');
-      S.niche=0;
-      buildModeRow();
-      buildInputCard();
-      autoSetAvgRpm();
-      renderAll();
-    });
-  });
-}
-
-function buildPlatformTabs(){
-  var html='';
-  platforms.forEach(function(p){
-    html+='<div class="ptab'+(p.id===S.platform?' active':'')+'" data-id="'+p.id+'">'
-      +'<div class="ptab-name">'+p.name+'</div>'
-      +'<div class="ptab-sub">'+(p.id==='youtube'?'Shorts + Long-form':'Live + VOD')+'</div>'
-      +'</div>';
-  });
-  // 4th slot — only visible on mobile as Support button
-   html+='<a class="ptab ptab-support" href="./donate.html" rel="noopener">'   
-    +'<div class="ptab-name"> Support</div>'
-    // +'<div class="ptab-sub">Buy me a coffee</div>'
-    +'</a>';
-  document.getElementById('ptabs').innerHTML=html;
-  document.querySelectorAll('.ptab').forEach(function(el){
-    el.addEventListener('click',function(){
-      var id=el.getAttribute('data-id');
-      if(!id)return; // support slot has no data-id
-      S.platform=id;
-      S.niche=0;
-      var pDef=platforms.find(function(x){return x.id===S.platform;});
-      S.mode=pDef.modes[0];
-      buildPlatformTabs();
-      buildModeRow();
-      buildInputCard();
-      autoSetAvgRpm();
-      renderAll();
-    });
-  });
-}
-
-// function toggleTheme(){
-//   var isDark=document.documentElement.getAttribute('data-theme')==='dark';
-//   document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
-//   document.getElementById('themeLbl').textContent=isDark?'Dark mode':'Light mode';
-// }
-function toggleTheme(){
-  var isDark=document.documentElement.getAttribute('data-theme')==='dark';
-  document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
-  document.getElementById('themeLbl').textContent=isDark?'Dark mode':'Light mode';
-}
+    // function toggleTheme(){
+    //   var isDark=document.documentElement.getAttribute('data-theme')==='dark';
+    //   document.documentElement.setAttribute('data-theme',isDark?'light':'dark');
+    //   document.getElementById('themeLbl').textContent=isDark?'Dark mode':'Light mode';
+    // }
+    function toggleTheme() {
+      var isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeLbl').textContent = isDark ? 'Dark mode' : 'Light mode';
+    }
 
 
-buildPlatformTabs();
-buildModeRow();
-buildInputCard();
-autoSetAvgRpm();
-renderSectionTabs();
-renderAll();
-</script>
+    var fromUrl = loadFromUrl();
+    if (!fromUrl) loadRegion();
+    buildPlatformTabs();
+    buildModeRow();
+    buildInputCard();
+    if (!fromUrl || !new URLSearchParams(location.search).has('rpm')) autoSetAvgRpm();
+    renderSectionTabs();
+    renderAll();
+  </script>
 </body>
+
 </html>
