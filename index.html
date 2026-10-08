@@ -843,12 +843,18 @@
 
     .compare-section {
       margin-top: 1.25rem;
+      text-align: center;
+    }
+
+    .compare-section .sec-lbl {
+      text-align: center;
     }
 
     .compare-note {
       font-size: 11px;
       color: var(--text3);
       margin-bottom: 8px;
+      text-align: center;
     }
 
     .compare-grid {
@@ -1233,7 +1239,6 @@
       vodViews: 8500, vodVideos: 6, twitchVodRpm: 1.50, kickVodRpm: 1.00,
       taxRate: 25,
       targetIncome: 3000,
-      growthPct: 0,
       stack: { subs: false, donations: false, brandDeals: false, merch: false },
       stackVals: { subsPerMonth: 120, subPrice: 4.99, donationsPerMonth: 150, brandDealsPerMonth: 500, merchPerMonth: 200 },
       activeSection: 'results',
@@ -1551,7 +1556,9 @@
       document.getElementById('rpmInp').addEventListener('input', function () {
         var v = parseFloat(this.value);
         if (isNaN(v) || v <= 0) return;
-        if (v > 100) { v = 100; this.value = 100; }
+        if (v > 100) v = 100;
+        v = parseFloat(v.toFixed(2));
+        this.value = v.toFixed(2);
         S[rk] = v;
         var np = (v - avg) / avg * 100;
         var nb = np >= 0 ? 'good' : 'warn';
@@ -1559,6 +1566,14 @@
         var badge = document.getElementById('rpmBadge');
         if (badge) { badge.className = 'rpm-badge ' + nb; badge.textContent = nbt; }
         renderResults();
+      });
+      document.getElementById('rpmInp').addEventListener('blur', function () {
+        var v = parseFloat(this.value);
+        if (isNaN(v) || v <= 0) v = 0.01;
+        if (v > 100) v = 100;
+        v = parseFloat(v.toFixed(2));
+        this.value = v.toFixed(2);
+        S[rk] = v;
       });
     }
 
@@ -1760,36 +1775,15 @@
             + '</div>';
         });
         cmpHtml += '</div></div>';
-        var growthMid = res.mid * (1 + S.growthPct / 100);
         var metaHtml = '<div class="metric"><div class="ml">Monthly mid</div><div class="mv">' + fmtM(res.mid) + '</div><div class="ms">your take-home</div></div>'
           + '<div class="metric"><div class="ml">' + res.perUnitLbl + '</div><div class="mv">' + res.perUnit + '</div><div class="ms">' + res.perUnitSub + '</div></div>'
           + '<div class="metric"><div class="ml">Creator cut</div><div class="mv">' + res.cut + '</div><div class="ms">already applied · take-home</div></div>';
-        var growthHtml = '<div class="growth-row">'
-          + '<label>If audience grows</label>'
-          + '<input type="range" id="sl_growth" min="0" max="100" step="5" value="' + S.growthPct + '">'
-          + '<span class="growth-val" id="out_growth">' + S.growthPct + '%</span>'
-          + '</div>'
-          + '<div class="growth-result" id="growthResult">' + (S.growthPct > 0 ? 'Projected monthly: <strong>' + fmtM(growthMid) + '</strong> · annual <strong>' + fmtM(growthMid * 12) + '</strong>' : 'Drag to project earnings if viewers/views grow') + '</div>';
         el.innerHTML = '<div class="metrics">' + metaHtml + '</div>'
           + '<div class="divider" style="margin:0 0 1rem;"></div>'
           + '<div class="sec-lbl">Monthly estimate range</div>' + barHtml
-          + growthHtml
           + cmpHtml
           + '<div class="insight">' + buildInsight(key) + '</div>'
           + '<div class="footnote">All figures are your take-home after the platform cut. Estimates only. Not financial advice.</div>';
-        var gSl = document.getElementById('sl_growth');
-        if (gSl) {
-          gSl.addEventListener('input', function () {
-            S.growthPct = parseInt(gSl.value);
-            var out = document.getElementById('out_growth');
-            if (out) out.textContent = S.growthPct + '%';
-            var gr = document.getElementById('growthResult');
-            var gm = getResult().mid * (1 + S.growthPct / 100);
-            if (gr) gr.innerHTML = S.growthPct > 0
-              ? 'Projected monthly: <strong>' + fmtM(gm) + '</strong> · annual <strong>' + fmtM(gm * 12) + '</strong>'
-              : 'Drag to project earnings if viewers/views grow';
-          });
-        }
 
       } else if (S.activeSection === 'stack') {
         var sv = S.stackVals;
