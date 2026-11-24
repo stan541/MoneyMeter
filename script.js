@@ -34,14 +34,14 @@
     var footerBase = inFooter ? '' : 'footer/';
   
     var footer = document.createElement('footer');
-    footer.innerHTML =
-      '<nav>' +
-        '<a href="' + footerBase + 'about">About Us</a>' +
-        '<a href="' + footerBase + 'terms">Terms of Use</a>' +
-        '<a href="' + footerBase + 'privacy">Privacy Policy</a>' +
-        '<a href="' + footerBase + 'sitemap">Sitemap</a>' +
-      '</nav>' +
-      '<div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>';
+  footer.innerHTML =
+  '<nav>' +
+    '<a href="/about/">About Us</a>' +
+    '<a href="/terms/">Terms of Use</a>' +
+    '<a href="/privacy/">Privacy Policy</a>' +
+    '<a href="/sitemap/">Sitemap</a>' +
+  '</nav>' +
+  '<div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>';
     document.body.appendChild(footer);
     var yr = document.getElementById('footerYr');
     if (yr) yr.textContent = new Date().getFullYear();
