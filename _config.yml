@@ -1,1 +1,6 @@
 permalink: pretty
+defaults:
+  - scope:
+      path: "footer"
+    values:
+      permalink: /:basename/
