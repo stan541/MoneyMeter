@@ -36,10 +36,10 @@
     var footer = document.createElement('footer');
   footer.innerHTML =
   '<nav>' +
-    '<a href="/about/">About Us</a>' +
-    '<a href="/terms/">Terms of Use</a>' +
-    '<a href="/privacy/">Privacy Policy</a>' +
-    '<a href="/sitemap/">Sitemap</a>' +
+       '<a href="' + footerBase + 'about.html">About Us</a>' +
+        '<a href="' + footerBase + 'terms.html">Terms of Use</a>' +
+        '<a href="' + footerBase + 'privacy.html">Privacy Policy</a>' +
+        '<a href="' + footerBase + 'sitemap.html">Sitemap</a>' +
   '</nav>' +
   '<div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>';
     document.body.appendChild(footer);
