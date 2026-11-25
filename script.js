@@ -28,20 +28,15 @@
   
   /* ── Shared footer injection ── */
   function injectFooter() {
-    // Determine base path: root vs footer/ subfolder
-    var inFooter = /\/footer\//.test(location.pathname) || location.pathname.endsWith('/footer') || document.body.classList.contains('footer-page');
-    var base = inFooter ? '../' : '';
-    var footerBase = inFooter ? '' : 'footer/';
-  
     var footer = document.createElement('footer');
-  footer.innerHTML =
-  '<nav>' +
-       '<a href="' + footerBase + 'about.html">About Us</a>' +
-        '<a href="' + footerBase + 'terms.html">Terms of Use</a>' +
-        '<a href="' + footerBase + 'privacy.html">Privacy Policy</a>' +
-        '<a href="' + footerBase + 'sitemap.html">Sitemap</a>' +
-  '</nav>' +
-  '<div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>';
+    footer.innerHTML =
+      '<nav>' +
+        '<a href="about.html">About Us</a>' +
+        '<a href="terms.html">Terms of Use</a>' +
+        '<a href="privacy.html">Privacy Policy</a>' +
+        '<a href="sitemap.html">Sitemap</a>' +
+      '</nav>' +
+      '<div>© <span id="footerYr"></span> Creator Earnings Calculator. All rights reserved.</div>';
     document.body.appendChild(footer);
     var yr = document.getElementById('footerYr');
     if (yr) yr.textContent = new Date().getFullYear();
@@ -290,7 +285,6 @@
               return true;
             }
           } catch (e) { }
-          // Last resort: show the text so user can copy manually
           window.prompt('Copy this:', text);
           markCopied(btn);
           return false;
@@ -417,7 +411,6 @@
           wireSlider('hours', 'hours', function (v) { return v + ' hrs'; });
           wireSlider('adMin', 'adMin', function (v) { return v + ' min/hr'; });
           wireSlider('streamDays', 'streamDays', function (v) { return v + ' days'; });
-          // Ad load warning
           var adWarn = document.createElement('div');
           adWarn.id = 'adWarn';
           adWarn.className = 'ad-warn';
@@ -486,7 +479,6 @@
           + kickVodNote
           + '</div>';
         document.getElementById('rpmInp').addEventListener('input', function () {
-          // Don't rewrite this.value while typing — that breaks multi-digit / decimal entry
           var v = parseFloat(this.value);
           if (isNaN(v) || v <= 0) return;
           if (v > 100) v = 100;
@@ -524,7 +516,7 @@
         var isKick = key === 'kick_live';
         var comp = isKick ? 0.65 : 0.68;
         var rk = rpmKeyFor(key);
-        var rpm = S[rk]; // r.mult already baked in by autoSetAvgRpm
+        var rpm = S[rk];
         var imp = S.viewers * S.adMin * S.hours * S.streamDays * comp;
         var mid = imp / 1000 * rpm;
         var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
@@ -536,7 +528,7 @@
       function calcVOD() {
         var key = mk(), n = nicheData[key][S.niche], r = regions[S.region];
         var rk = rpmKeyFor(key);
-        var rpm = S[rk]; // r.mult already baked in by autoSetAvgRpm
+        var rpm = S[rk];
         var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
         var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
         var low = S.vodViews / 1000 * n.rpmMin * r.mult * ratio * S.vodVideos;
@@ -546,7 +538,7 @@
       }
       function calcShorts() {
         var n = nicheData['youtube_shorts'][S.niche], r = regions[S.region];
-        var rpm = S.shortRpm; // r.mult already baked in by autoSetAvgRpm
+        var rpm = S.shortRpm;
         var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
         var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
         var low = S.shortViews / 1000 * n.rpmMin * r.mult * ratio;
@@ -556,7 +548,7 @@
       }
       function calcYTVideo() {
         var n = nicheData['youtube_video'][S.niche], r = regions[S.region];
-        var rpm = S.ytRpm; // r.mult already baked in by autoSetAvgRpm
+        var rpm = S.ytRpm;
         var nicheAvg = (n.rpmMin + n.rpmMax) / 2 * r.mult;
         var ratio = nicheAvg > 0 ? rpm / nicheAvg : 1;
         var low = S.ytViews / 1000 * n.rpmMin * r.mult * ratio * S.ytVideos;
@@ -596,7 +588,6 @@
           var key = x.p + '_' + x.m;
           var nList = nicheData[key];
           var n = nList[Math.min(ni, nList.length - 1)];
-          // Use user's actual RPM for the active mode; niche avg for all others
           var nicheAvgRpm = (n.rpmMin + n.rpmMax) / 2 * r.mult;
           var rpm = (key === activeKey) ? S[rpmKeyFor(key)] : nicheAvgRpm;
           var v = 0;
@@ -861,7 +852,6 @@
             + '</div>'
             + '<div class="footnote" style="margin-top:0.75rem;">Tax estimate only. Actual liability depends on deductible expenses, local rules, and filing status. Self-employed / freelancers often deduct equipment, software, home office, and internet. Always consult a local accountant.</div>';
           el.innerHTML = taxHtml;
-          // Wire tax slider: update result in-place without re-rendering (avoids drag-interruption)
           var taxSl = document.getElementById('sl_taxRate');
           var taxOut = document.getElementById('out_taxRate');
           if (taxSl) {
@@ -873,7 +863,6 @@
               var gross3 = getResult().mid + stk3;
               var ta = gross3 * (v / 100);
               var nt = gross3 - ta;
-              // Update tax result rows in-place
               var rows = el.querySelectorAll('.tax-row .tax-val');
               if (rows[0]) rows[0].textContent = fmtM(gross3);
               if (rows[1]) rows[1].textContent = '- ' + fmtM(ta);
@@ -881,7 +870,6 @@
               if (tfv) tfv.textContent = fmtM(nt);
               var taxLbl = el.querySelector('.tax-row:nth-child(2) .tax-lbl');
               if (taxLbl) taxLbl.textContent = 'Tax (' + v + '%)';
-              // Update annual banner in-place (no DOM rebuild)
               var annualVal = document.querySelector('.annual-val');
               if (annualVal) annualVal.textContent = fmtM(gross3 * 12);
               document.querySelectorAll('.apill').forEach(function (pill) {
@@ -904,7 +892,6 @@
           });
   
         } else if (S.activeSection === 'breakeven') {
-          // Only build the shell once; update the grid in-place on input change
           if (!document.getElementById('beTarget')) {
             el.innerHTML = '<div style="text-align:center;margin-bottom:1.25rem;">'
               + '<div class="sec-lbl" style="margin-bottom:10px;">Target monthly income</div>'
@@ -929,7 +916,6 @@
       }
   
       function renderResults() {
-        // Tax section does in-place slider updates to avoid drag interruption; don't rebuild it
         if (S.activeSection !== 'tax') {
           renderSectionContent();
         }
@@ -979,7 +965,6 @@
             copyText(url, shareBtn);
           };
         }
-        // If tax tab is open, refresh its result rows in-place (gross may have changed via RPM/niche)
         if (S.activeSection === 'tax') {
           var sc = document.getElementById('sectionContent');
           var rows = sc && sc.querySelectorAll('.tax-row .tax-val');
@@ -1027,16 +1012,15 @@
             + '<div class="ptab-sub">' + (p.id === 'youtube' ? 'Shorts · Long-form' : 'Live · VOD') + '</div>'
             + '</div>';
         });
-        // 4th slot — only visible on mobile as Support button
-        html += '<a class="ptab ptab-support" href="footer/donate.html"   rel="noopener">'
-          + '<div class="ptab-name"> Support</div>'
-          // +'<div class="ptab-sub">Buy me a coffee</div>'
+        // Support button (now points to root)
+        html += '<a class="ptab ptab-support" href="donate.html" rel="noopener">'
+          + '<div class="ptab-name">Support</div>'
           + '</a>';
         document.getElementById('ptabs').innerHTML = html;
         document.querySelectorAll('.ptab').forEach(function (el) {
           el.addEventListener('click', function () {
             var id = el.getAttribute('data-id');
-            if (!id) return; // support slot has no data-id
+            if (!id) return;
             S.platform = id;
             S.niche = 0;
             var pDef = platforms.find(function (x) { return x.id === S.platform; });
@@ -1050,8 +1034,6 @@
         });
       }
   
-  
-  
       var fromUrl = loadFromUrl();
       if (!fromUrl) loadRegion();
       buildPlatformTabs();
@@ -1061,4 +1043,3 @@
       renderSectionTabs();
       renderAll();
   });
-  
